@@ -2,6 +2,7 @@ using DMUStudent
 using Test
 using RedPen
 using RedPen.Server
+using DataFrames
 
 server_state = Dict{String, Any}("status request"=>nothing)
 
@@ -26,3 +27,5 @@ DMUStudent.config["address"] = "127.0.0.1"
     @test sr["email"] == "student@colorado.edu"
     @test sr["project"] == "status"
 end
+
+include("hw1.jl")

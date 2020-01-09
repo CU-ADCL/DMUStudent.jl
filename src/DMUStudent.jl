@@ -2,7 +2,9 @@ module DMUStudent
 
 import RedPen
 
-export status
+export
+    status,
+    HW1
 
 config = Dict("address"=>"submission_url",
               "port"=>8228,
@@ -18,9 +20,11 @@ function status(email)
     RedPen.Client.submit(payload, config)
 end
 
-# function submit(data, project::AbstractString, email; nickname=email)
-# 
-# end
+function submit(data, project::AbstractString, email; nickname=email)
+    error("submission has not been set up in this version")
+end
+
+include("HW1.jl")
 
 
 end # module
