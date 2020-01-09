@@ -9,7 +9,7 @@ export
     titanic
 
 # mostly to get binaries to recompile
-version = v"0.1.1"
+version = v"0.1.2"
 
 @binclude(".bin/hw1_4")
 
