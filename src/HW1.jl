@@ -13,6 +13,6 @@ version = v"0.1.2"
 
 @binclude(".bin/hw1_4")
 
-titanic = CSV.read("../data/titanic.csv")
+titanic = CSV.read(joinpath(dirname(@__FILE__()), "..", "data", "titanic.csv"))
 
 end
