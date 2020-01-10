@@ -1,10 +1,12 @@
 name = "DMUStudent"
 uuid = "a176809d-bc77-421e-b60b-7b215d415e6e"
 authors = ["Zachary Sunberg <sunbergzach@gmail.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+Nettle = "49dea1ee-f6fa-5aa6-9a11-8816cee7d4b9"
 Obfuscatee = "4b331413-18b5-5698-88d1-0abf3b5dfc34"
 RedPen = "6500d021-ed42-4427-8819-7be88027218e"
