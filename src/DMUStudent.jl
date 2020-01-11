@@ -10,7 +10,7 @@ export
 
 include("HW1.jl")
 
-config = Dict("address"=>"submission_url",
+config = Dict("address"=>"dmuleaderboard.com",
               "port"=>8228,
               "email"=>"zachary.sunberg@colorado.edu"
              )
