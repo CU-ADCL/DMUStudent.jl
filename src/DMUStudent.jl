@@ -17,7 +17,14 @@ config = Dict("address"=>"dmuleaderboard.com",
 
 projects = Dict("hw1"=>HW1)
 
-# Interface
+"""
+    status(email)
+
+Check the status of submissions on dmuleaderboard.com for a given email.
+
+# Arguments
+- `email::String`: email of a student specified as a string.
+"""
 function status(email)
     payload = Dict{String,Any}("email"=>email,
                    "project"=>"status",
@@ -26,12 +33,41 @@ function status(email)
     RedPen.Client.submit(payload, config)
 end
 
+"""
+    evaluate(submission, assignment)
+
+Evaluate a submission for a homework assignment on your local machine and print a score. This will NOT send the result to dmuleaderboard.com.
+
+# Arguments
+- `submission`: This is the object that the homework prompt asks for. It could be a function, vector, string, or some other data. See the homework starter code for examples.
+- `assignment::String`: A string indicating which assignment this is for, e.g. `"hw1"`
+"""
 function evaluate(submission, project::AbstractString)
     score = projects[project].evaluate(submission)
     println("Evaluation complete! Score: $score")
     return score
 end
 
+"""
+    submit(submission, assignment, email; [nickname=email])
+
+Evaluate a submission for a homework assignment on your local machine and submit it to dmuleaderboard.com.
+
+# Positional Arguments
+- `submission`: This is the object that the homework prompt asks for. It could be a function, vector, string, or some other data. See the homework starter code for examples.
+- `assignment::String`: A string indicating which assignment this is for, e.g. `"hw1"`
+- `email::String`: email of a student specified as a string.
+
+# Keyword Arguments
+- `nickname::String`: A nickname to be displayed on the scoreboard instead of your email. If none is supplied your email will be used.
+
+# Example
+```
+using DMUStudent
+f(x, y) = x+y
+submit(f, "hw1", "your.email@colorado.edu", nickname="ralphie")
+```
+"""
 function submit(submission, project::AbstractString, email::AbstractString; nickname=email)
     score, data = projects[project].evaluate_for_submission(submission, email)
     println("Evaluation complete! Score: $score")
