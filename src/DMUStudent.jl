@@ -69,6 +69,10 @@ submit(f, "hw1", "your.email@colorado.edu", nickname="ralphie")
 ```
 """
 function submit(submission, project::AbstractString, email::AbstractString; nickname=email)
+    if !is_identikey_colorado_email(email)
+        error("You must use your indentikey@colorado.edu email address. Your identikey is four letters followed by four numbers.")
+    end
+
     score, data = projects[project].evaluate_for_submission(submission, email)
     println("Evaluation complete! Score: $score")
     payload = Dict{String,Any}("email"=>email,
@@ -80,5 +84,7 @@ function submit(submission, project::AbstractString, email::AbstractString; nick
     RedPen.Client.submit(payload, config)
     return score
 end
+
+is_identikey_colorado_email(email) = !isnothing(match(r"^[a-z]{4}\d{4}@colorado.edu$", email))
 
 end # module
