@@ -10,3 +10,6 @@ JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Nettle = "49dea1ee-f6fa-5aa6-9a11-8816cee7d4b9"
 Obfuscatee = "4b331413-18b5-5698-88d1-0abf3b5dfc34"
 RedPen = "6500d021-ed42-4427-8819-7be88027218e"
+
+[compat]
+RedPen = "v0.2.3"
