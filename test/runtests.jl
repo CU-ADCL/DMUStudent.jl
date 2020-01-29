@@ -39,3 +39,4 @@ DMUStudent.config["address"] = "127.0.0.1"
 end
 
 include("hw1.jl")
+include("hw2.jl")

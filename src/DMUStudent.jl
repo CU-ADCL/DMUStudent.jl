@@ -6,16 +6,20 @@ export
     status,
     submit,
     evaluate,
-    HW1
+    HW1,
+    HW2
 
 include("HW1.jl")
+include("HW2.jl")
 
 config = Dict("address"=>"dmuleaderboard.com",
               "port"=>8228,
               "email"=>"zachary.sunberg@colorado.edu"
              )
 
-projects = Dict("hw1"=>HW1)
+projects = Dict("hw1"=>HW1,
+                "hw2"=>HW2
+               )
 
 """
     status(email)
