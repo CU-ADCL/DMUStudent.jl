@@ -15,6 +15,7 @@ POMDPModelTools = "08074719-1b2a-587c-a292-00f91cc44415"
 POMDPPolicies = "182e52fb-cfd0-5e46-8c26-fd0667c990f4"
 POMDPs = "a93abf59-7444-517b-a68a-c42f96afdd7d"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 RedPen = "6500d021-ed42-4427-8819-7be88027218e"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 

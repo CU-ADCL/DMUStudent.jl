@@ -25,4 +25,10 @@
         short = v[1:end-1]
         @test_throws ErrorException HW2.evaluate(short)
     end
+
+    medium = ones(1250*19^3)
+    @test HW2.evaluate(medium) == 0
+
+    large = ones(1250*21^3)
+    @test HW2.evaluate(large) == 0
 end

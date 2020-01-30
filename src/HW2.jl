@@ -4,6 +4,7 @@ using Obfuscatee
 using Nettle
 using JSON
 using ProgressMeter
+using Random
 
 using POMDPs
 using StaticArrays
@@ -167,6 +168,23 @@ function bincenter(d::LinearDiscretizer, binindex)
     return (be[binindex+1] + be[binindex])/2
 end
 
+"""
+    transition_matrices(m, [sparse=true])
+
+Create a dictionary mapping actions to transition matrices for UnresponsiveACASMDP m.
+
+# Example
+```julia
+T = transition_matrices(m)
+T[1][2,3] # probability of transitioning from state 2 to 3 when action 1 is taken
+```
+
+# Arguments
+- `m`: `UnresponsiveACASMDP` model
+
+# Keyword Arguments
+- `sparse::Bool`: if true, returns a sparse matrix representation (with significant memory savings!), if false, the matrices will be dense
+"""
 function transition_matrices(m::UnresponsiveACASMDP; sparse::Bool=false)
     transmats = POMDPModelTools.transition_matrix_a_s_sp(m)
     if !sparse
