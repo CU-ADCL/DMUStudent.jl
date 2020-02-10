@@ -14,6 +14,7 @@ In Julia, run
 using Pkg
 pkg"update"
 pkg"registry add https://github.com/sisl/Registry"
+pkg"registry add https://github.com/JuliaPOMDP/Registry"
 pkg"add https://github.com/zsunberg/DMUStudent.jl"
 ```
 
