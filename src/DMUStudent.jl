@@ -7,10 +7,12 @@ export
     submit,
     evaluate,
     HW1,
-    HW2
+    HW2,
+    HW3
 
 include("HW1.jl")
 include("HW2.jl")
+include("HW3.jl")
 
 config = Dict("address"=>"dmuleaderboard.com",
               "port"=>8228,

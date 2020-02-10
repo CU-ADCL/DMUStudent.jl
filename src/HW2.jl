@@ -96,7 +96,7 @@ function POMDPs.transition(m::UnresponsiveACASMDP, s, a)
     @assert finish <= length(m._cached_cdf)
     probs = Vector{Float64}(undef, nhbins)
     probs[1] = m._cached_cdf[start]
-    probs[2:nhbins-1] = m._cached_cdf[start+1:finish] - m._cached_cdf[start:finish-1]
+    probs[2:nhbins-1] = view(m._cached_cdf, start+1:finish) - view(m._cached_cdf, start:finish-1)
     probs[end] = 1.0 - m._cached_cdf[finish]
     @assert length(probs) == nhbins
     @assert length(states) == nhbins

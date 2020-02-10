@@ -1,7 +1,7 @@
 name = "DMUStudent"
 uuid = "a176809d-bc77-421e-b60b-7b215d415e6e"
 authors = ["Zachary Sunberg <sunbergzach@gmail.com>"]
-version = "0.2.4"
+version = "0.3.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -14,6 +14,7 @@ Obfuscatee = "4b331413-18b5-5698-88d1-0abf3b5dfc34"
 POMDPModelTools = "08074719-1b2a-587c-a292-00f91cc44415"
 POMDPPolicies = "182e52fb-cfd0-5e46-8c26-fd0667c990f4"
 POMDPs = "a93abf59-7444-517b-a68a-c42f96afdd7d"
+Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 RedPen = "6500d021-ed42-4427-8819-7be88027218e"
