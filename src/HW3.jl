@@ -22,7 +22,7 @@ end
 
 function Random.rand(rng::AbstractRNG, ::Random.SamplerType{DenseGridWorld})
     size = (100,100)
-    costs = rand(rng, Exponential(1.0), size) + rand(rng, Bernoulli(0.1), size).*20.0
+    costs = rand(rng, Exponential(1.0), size) + rand(rng, Bernoulli(0.1), size).*50.0
     return DenseGridWorld(size=size, costs=costs)
 end
 
