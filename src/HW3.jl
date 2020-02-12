@@ -11,10 +11,11 @@ export DenseGridWorld
 
 const GWPos = SVector{2,Int}
 const DEFAULT_SIZE = (200,200)
+const RD = 20
 
 @with_kw struct DenseGridWorld <: MDP{GWPos, Symbol}
     size::Tuple{Int, Int}           = DEFAULT_SIZE
-    rewards::Dict{GWPos, Float64}   = Dict(GWPos(x,y) => 100.0 for x in 40:40:size[1]-40, y in 40:40:size[2]-40)
+    rewards::Dict{GWPos, Float64}   = Dict(GWPos(x,y) => 100.0 for x in RD:RD:size[1]-RD, y in RD:RD:size[2]-RD)
     costs::Matrix{Float64}          = gencosts(size)
     terminate_from::Set{GWPos}      = Set(keys(rewards))
     tprob::Float64                  = 0.9
