@@ -4,9 +4,9 @@
     using DiscreteValueIteration
     using POMDPTesting
 
-    m = DenseGridWorld()
+    @time m = DenseGridWorld()
     @test has_consistent_distributions(m)
 
-    m = rand(DenseGridWorld)
+    @time m = rand(DenseGridWorld)
     @test has_consistent_distributions(m)
 end

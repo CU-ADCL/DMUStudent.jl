@@ -10,20 +10,23 @@ using POMDPModelTools
 export DenseGridWorld
 
 const GWPos = SVector{2,Int}
+const DEFAULT_SIZE = (200,200)
 
 @with_kw struct DenseGridWorld <: MDP{GWPos, Symbol}
-    size::Tuple{Int, Int}           = (100,100)
-    rewards::Dict{GWPos, Float64}   = Dict(GWPos(x,y) => 100.0 for x in 20:20:size[1]-20, y in 20:20:size[2]-20)
-    costs::Matrix{Float64}          = zeros(size)
+    size::Tuple{Int, Int}           = DEFAULT_SIZE
+    rewards::Dict{GWPos, Float64}   = Dict(GWPos(x,y) => 100.0 for x in 40:40:size[1]-40, y in 40:40:size[2]-40)
+    costs::Matrix{Float64}          = gencosts(size)
     terminate_from::Set{GWPos}      = Set(keys(rewards))
     tprob::Float64                  = 0.9
-    discount::Float64               = 0.95
+    discount::Float64               = 0.99
+end
+
+function gencosts(size=DEFAULT_SIZE, rng::AbstractRNG=Random.GLOBAL_RNG)
+    rand(rng, Exponential(1.0), size) + rand(rng, Bernoulli(0.1), size).*50.0
 end
 
 function Random.rand(rng::AbstractRNG, ::Random.SamplerType{DenseGridWorld})
-    size = (100,100)
-    costs = rand(rng, Exponential(1.0), size) + rand(rng, Bernoulli(0.1), size).*50.0
-    return DenseGridWorld(size=size, costs=costs)
+    return DenseGridWorld(size=DEFAULT_SIZE, costs=gencosts(DEFAULT_SIZE, rng))
 end
 
 # States
