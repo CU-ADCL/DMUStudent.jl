@@ -6,11 +6,15 @@ using Parameters
 using Random
 using Distributions
 using POMDPModelTools
+using ProgressMeter
+using DiscreteValueIteration
+using POMDPSimulators
+using Obfuscatee
 
 export DenseGridWorld
 
 const GWPos = SVector{2,Int}
-const DEFAULT_SIZE = (200,200)
+const DEFAULT_SIZE = (100,100)
 const RD = 20
 
 @with_kw struct DenseGridWorld <: MDP{GWPos, Symbol}
@@ -115,5 +119,6 @@ function POMDPs.convert_a(::Type{Symbol}, vec::V, m::DenseGridWorld) where {V<:A
     actions(m)[convert(Int, first(vec))]
 end
 
+@binclude(".bin/hw3_eval")
 
 end
