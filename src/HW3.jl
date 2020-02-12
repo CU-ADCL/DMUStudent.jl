@@ -19,7 +19,7 @@ const RD = 20
     costs::Matrix{Float64}          = gencosts(size)
     terminate_from::Set{GWPos}      = Set(keys(rewards))
     tprob::Float64                  = 0.9
-    discount::Float64               = 0.99
+    discount::Float64               = 0.95
 end
 
 function gencosts(size=DEFAULT_SIZE, rng::AbstractRNG=Random.GLOBAL_RNG)
