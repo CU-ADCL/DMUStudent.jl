@@ -10,6 +10,8 @@ using ProgressMeter
 using DiscreteValueIteration
 using POMDPSimulators
 using Obfuscatee
+using Compose
+using ColorSchemes
 
 export DenseGridWorld
 

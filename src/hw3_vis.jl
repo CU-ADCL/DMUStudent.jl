@@ -1,9 +1,12 @@
-function render(mdp::DenseGridWorld, step::Union{NamedTuple,Dict};
+function POMDPModelTools.render(mdp::DenseGridWorld, step::Union{NamedTuple,Dict};
                 color = s->reward(mdp, s),
                 policy::Union{Policy,Nothing} = nothing
                )
 
     nx, ny = mdp.size
+    if nx*ny > 60^2
+        error("For now only DenseGridWorlds with less than 3600 cells can be rendered.")
+    end
     cells = []
     for x in 1:nx, y in 1:ny
         cell = cell_ctx((x,y), mdp.size)
@@ -16,7 +19,8 @@ function render(mdp::DenseGridWorld, step::Union{NamedTuple,Dict};
         compose!(cell, rectangle(), fill(clr), stroke("gray"))
         push!(cells, cell)
     end
-    grid = compose(context(), linewidth(0.5mm), cells...)
+    
+    grid = compose(context(), linewidth(0.5mm), cells)
     outline = compose(context(), linewidth(1mm), rectangle(), stroke("gray"))
 
     if haskey(step, :s)
