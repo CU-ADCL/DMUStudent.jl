@@ -13,7 +13,9 @@ using Obfuscatee
 using Compose
 using ColorSchemes
 
-export DenseGridWorld
+export
+    DenseGridWorld,
+    GWPos
 
 const GWPos = SVector{2,Int}
 const DEFAULT_SIZE = (100,100)

@@ -16,6 +16,6 @@
     
     @test DMUStudent.evaluate(RandomSolver(), "hw3") <= 100.0
 
-    r = render(DenseGridWorld(size=(60,60)), NamedTuple())
+    r = render(DenseGridWorld(size=(60,60)), (s=GWPos(30,30),))
     draw(SVG(tempname()*".svg"), r)
 end
