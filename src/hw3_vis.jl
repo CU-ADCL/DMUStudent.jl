@@ -20,7 +20,7 @@ function POMDPModelTools.render(mdp::DenseGridWorld, step::Union{NamedTuple,Dict
         push!(cells, cell)
     end
     
-    grid = compose(context(), linewidth(0.5mm), cells)
+    grid = compose(context(), linewidth(0.5mm), cells...)
     outline = compose(context(), linewidth(1mm), rectangle(), stroke("gray"))
 
     if haskey(step, :s)
