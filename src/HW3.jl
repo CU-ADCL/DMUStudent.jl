@@ -119,6 +119,8 @@ function POMDPs.convert_a(::Type{Symbol}, vec::V, m::DenseGridWorld) where {V<:A
     actions(m)[convert(Int, first(vec))]
 end
 
+include("hw3_vis.jl")
+
 @binclude(".bin/hw3_eval")
 
 end
