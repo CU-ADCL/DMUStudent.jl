@@ -12,6 +12,8 @@ using POMDPSimulators
 using Obfuscatee
 using Compose
 using ColorSchemes
+using Nettle
+using JSON
 
 export
     DenseGridWorld,
