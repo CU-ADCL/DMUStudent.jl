@@ -23,7 +23,8 @@ config = Dict("address"=>"dmuleaderboard.com",
 
 projects = Dict("hw1"=>HW1,
                 "hw2"=>HW2,
-                "hw3"=>HW3
+                "hw3"=>HW3,
+                "hw4"=>HW4
                )
 
 """
