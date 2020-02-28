@@ -14,6 +14,7 @@ using Compose
 using ColorSchemes
 using Nettle
 using JSON
+using POMDPModels # just to silence warning when HW4 is imported
 
 export
     DenseGridWorld,
@@ -61,8 +62,6 @@ POMDPs.initialstate_distribution(m::DenseGridWorld) = POMDPModelTools.Uniform(st
 # Actions
 
 POMDPs.actions(m::DenseGridWorld) = (:up, :down, :left, :right)
-Base.rand(rng::AbstractRNG, t::NTuple{L,Symbol}) where L = t[rand(rng, 1:length(t))] # don't know why this doesn't work out of the box
-
 
 const dir = Dict(:up=>GWPos(0,1), :down=>GWPos(0,-1), :left=>GWPos(-1,0), :right=>GWPos(1,0))
 const aind = Dict(:up=>1, :down=>2, :left=>3, :right=>4)

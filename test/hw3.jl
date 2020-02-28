@@ -14,9 +14,9 @@
     @time m = rand(DenseGridWorld)
     # @test has_consistent_distributions(m)
     
-    @test DMUStudent.evaluate(RandomSolver(), "hw3") <= 100.0
-
-    HW3.evaluate_for_submission(RandomSolver(), "test1234@colorado.edu")
+    @warn("Skipping HW3 evaluate testing for speed")
+    # @test DMUStudent.evaluate(RandomSolver(), "hw3") <= 100.0
+    # HW3.evaluate_for_submission(RandomSolver(), "test1234@colorado.edu")
 
     r = render(DenseGridWorld(size=(60,60)), (s=GWPos(30,30),))
     draw(SVG(tempname()*".svg"), r)

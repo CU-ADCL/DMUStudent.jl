@@ -35,4 +35,10 @@ end
 
 @binclude(".bin/hw4_eval")
 
+# to fix errors with using environments from python
+function POMDPs.gen(v::DDNOut{symbols}, m::QuickMDP, s, a, rng) where symbols
+    ddn = DDNStructure(m)
+    POMDPs.genout(v, ddn, m, s, a, rng)
+end
+
 end
