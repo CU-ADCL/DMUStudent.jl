@@ -51,9 +51,17 @@ Evaluate a submission for a homework assignment on your local machine and print 
 # Arguments
 - `submission`: This is the object that the homework prompt asks for. It could be a function, vector, string, or some other data. See the homework starter code for examples.
 - `assignment::String`: A string indicating which assignment this is for, e.g. `"hw1"`
+
+# Keyword Arguments
+
+There are various keyword arguments that control evaluation options for different assignments:
+
+## hw4
+
+- `n_episodes::Int`: number of episodes to evaluate on. 1000 is used for submission; a smaller number will run faster.
 """
-function evaluate(submission, project::AbstractString)
-    score = projects[project].evaluate(submission)
+function evaluate(submission, project::AbstractString; kwargs...)
+    score = projects[project].evaluate(submission; kwargs...)
     println("Evaluation complete! Score: $score")
     return score
 end

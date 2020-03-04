@@ -38,6 +38,11 @@
     score, data = HW4.evaluate_for_submission(FunctionPolicy(s->1.0), "test1234@colorado.edu")
     @test score < 0.0
 
+    score = DMUStudent.evaluate(s->1.0, "hw4", n_episodes=100)
+    @test score < 0.0
+
+    @test_throws AssertionError HW4.evaluate_for_submission(s->1.0, "test1234@colorado.edu", n_episodes=100)
+
     # rendering mc
     @test RLInterface.render(mc) isa Context
 end
