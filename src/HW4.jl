@@ -41,4 +41,7 @@ function POMDPs.gen(v::DDNOut{symbols}, m::QuickMDP, s, a, rng) where symbols
     POMDPs.genout(v, ddn, m, s, a, rng)
 end
 
+RLInterface.render(gw::typeof(gw); kwargs...) = POMDPModelTools.render(gw.problem, (s=gw.state,); kwargs...)
+
+RLInterface.render(mc::typeof(mc); kwargs...) = POMDPModelTools.render(mc.problem, (s=mc.state,); kwargs...)
 end

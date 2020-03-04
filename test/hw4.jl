@@ -30,7 +30,7 @@
     @test -10.0 <= rsum <= 10.0
 
     # rendering gw
-    @test RLInterface.render(gw) isa Context
+    @test RLInterface.render(gw, policy=s->:left) isa Context
    
     # evaluation
     score, data = HW4.evaluate_for_submission(s->1.0, "test1234@colorado.edu")
