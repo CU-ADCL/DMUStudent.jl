@@ -133,8 +133,8 @@ function POMDPs.convert_s(::Type{Int}, acas::ACASState, m::UnresponsiveACASMDP)
     return LinearIndices(shape)[h_o_bin, hdot_o_bin, h_i_bin, dbin]
 end
 
-POMDPs.stateindex(m, s) = s
-POMDPs.actionindex(m, a) = a
+POMDPs.stateindex(m::UnresponsiveACASMDP, s) = s
+POMDPs.actionindex(m::UnresponsiveACASMDP, a) = a
 
 # less than 100 ft vertically and 500 ft horizontally
 function is_nmac(m::UnresponsiveACASMDP, acas::ACASState)
