@@ -15,6 +15,8 @@
 
     @test simulate(RolloutSimulator(max_steps=100), small, RandomPolicy(small)) isa Float64
 
+    solve(QMDPSolver(), small)
+
     sp = LTState([3, 2], [2, 3])
     r = render(small, (o=[1,1,1,1], bp=Uniform(states(small)), sp=sp))
     filename = "/tmp/lasertag.svg"
