@@ -9,6 +9,7 @@ using Obfuscatee
 using Nettle
 using ProgressMeter
 using POMDPSimulators
+using JSON
 
 export
     LaserTagPOMDP,
@@ -21,7 +22,6 @@ struct LTState
     robot::Pos
     target::Pos
 end
-
 
 struct LaserTagPOMDP <: POMDP{LTState, Symbol, SVector{4,Int}}
     size::SVector{2, Int}
