@@ -120,7 +120,11 @@ function POMDPs.pdf(d::LaserDistribution, o)
 end
 
 function POMDPs.rand(rng::AbstractRNG, d::LaserDistribution)
-    return SVector(rand(rng, 0:d.ranges[1]), rand(rng, 0:d.ranges[2]), rand(rng, 0:d.ranges[3]), rand(rng, 0:d.ranges[4]))
+    if d.measured
+        return d.ranges
+    else
+        return SVector(rand(rng, 0:d.ranges[1]), rand(rng, 0:d.ranges[2]), rand(rng, 0:d.ranges[3]), rand(rng, 0:d.ranges[4]))
+    end
 end
 
 function POMDPs.support(d::LaserDistribution)
