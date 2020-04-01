@@ -54,7 +54,7 @@ function POMDPs.observations(m::LaserTagPOMDP)
 end
 POMDPs.discount(m::LaserTagPOMDP) = 0.99
 
-POMDPs.stateindex(m::LaserTagPOMDP, s) = (LinearIndices((m.size...,))[s.robot...]-1)*prod(m.size)+LinearIndices((m.size...,))[s.target...]
+POMDPs.stateindex(m::LaserTagPOMDP, s) = (LinearIndices((m.size[1],m.size[2]))[s.robot...]-1)*prod(m.size)+LinearIndices((m.size[1],m.size[2]))[s.target...]
 POMDPs.actionindex(m::LaserTagPOMDP, a) = actionind[a]
 
 const actiondir = Dict(:left=>Pos(-1,0), :right=>Pos(1,0), :up=>Pos(0, 1), :down=>Pos(0,-1), :measure=>Pos(0,0))
