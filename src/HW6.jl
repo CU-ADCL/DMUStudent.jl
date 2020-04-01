@@ -39,7 +39,7 @@ end
 
 Random.rand(rng::AbstractRNG, ::Random.SamplerType{LaserTagPOMDP}) = LaserTagPOMDP(rng=rng)
 
-pomdp = LaserTagPOMDP(size=(11,11), n_obstacles=14, rng=MersenneTwister(20))
+pomdp = LaserTagPOMDP(size=(11,7), n_obstacles=14, rng=MersenneTwister(20))
 
 POMDPs.actions(m::LaserTagPOMDP) = (:left, :right, :up, :down, :measure)
 POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for rx in 1:m.size[1], ry in 1:m.size[2], tx in 1:m.size[1], ty in 1:m.size[2]))
