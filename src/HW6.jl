@@ -27,9 +27,9 @@ end
 function LaserTagPOMDP(;size=(11,7), n_obstacles=8, rng::AbstractRNG=Random.GLOBAL_RNG)
     obstacles = Set{Pos}()
     while length(obstacles) < n_obstacles
-        push!(obstacles, Pos(rand(rng, 1:size[1]), rand(rng, 1:size[2])))
+        push!(obstacles, SVector(rand(rng, 1:size[1]), rand(rng, 1:size[2])))
     end
-    robot_init = Pos(rand(rng, 1:size[1]), rand(rng, 1:size[2]))
+    robot_init = SVector(rand(rng, 1:size[1]), rand(rng, 1:size[2]))
     LaserTagPOMDP(size, obstacles, robot_init)
 end
 
@@ -38,7 +38,7 @@ Random.rand(rng::AbstractRNG, ::Random.SamplerType{LaserTagPOMDP}) = LaserTagPOM
 pomdp = LaserTagPOMDP(size=(11,11), n_obstacles=14, rng=MersenneTwister(20))
 
 POMDPs.actions(m::LaserTagPOMDP) = (:left, :right, :up, :down, :measure)
-POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(Pos(rx, ry), Pos(tx, ty)) for rx in 1:m.size[1], ry in 1:m.size[2], tx in 1:m.size[1], ty in 1:m.size[2]))
+POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for rx in 1:m.size[1], ry in 1:m.size[2], tx in 1:m.size[1], ty in 1:m.size[2]))
 function POMDPs.observations(m::LaserTagPOMDP)
     os = SVector{4,Int}[]
     for left in 0:m.size[1]-1
@@ -54,10 +54,10 @@ function POMDPs.observations(m::LaserTagPOMDP)
 end
 POMDPs.discount(m::LaserTagPOMDP) = 0.99
 
-POMDPs.stateindex(m::LaserTagPOMDP, s) = (LinearIndices((m.size[1],m.size[2]))[s.robot...]-1)*prod(m.size)+LinearIndices((m.size[1],m.size[2]))[s.target...]
+POMDPs.stateindex(m::LaserTagPOMDP, s) = (LinearIndices((m.size[1],m.size[2]))[s.robot[1], s.robot[2]]-1)*prod(m.size)+LinearIndices((m.size[1],m.size[2]))[s.target[1], s.target[2]]
 POMDPs.actionindex(m::LaserTagPOMDP, a) = actionind[a]
 
-const actiondir = Dict(:left=>Pos(-1,0), :right=>Pos(1,0), :up=>Pos(0, 1), :down=>Pos(0,-1), :measure=>Pos(0,0))
+const actiondir = Dict(:left=>SVector(-1,0), :right=>SVector(1,0), :up=>SVector(0, 1), :down=>SVector(0,-1), :measure=>SVector(0,0))
 const actionind = Dict(:left=>1, :right=>2, :up=>3, :down=>4, :measure=>5)
 
 function bounce(m::LaserTagPOMDP, pos, change)
@@ -75,7 +75,7 @@ function POMDPs.transition(m::LaserTagPOMDP, s, a)
     newstates = [LTState(newrobot, s.target)]
     probs = [0.0]
     if sum(abs, newrobot - s.target) > 2 # move randomly
-        for change in (Pos(-1,0), Pos(1,0), Pos(0,1), Pos(0,-1))
+        for change in (SVector(-1,0), SVector(1,0), SVector(0,1), SVector(0,-1))
             newtarget = bounce(m, s.target, change)
             if newtarget == s.target
                 probs[1] += 0.25
@@ -170,7 +170,7 @@ function laserbounce(ranges, robot, obstacle)
 end
 
 function POMDPs.initialstate_distribution(m::LaserTagPOMDP)
-    return Uniform(LTState(m.robot_init, Pos(x, y)) for x in 1:m.size[1], y in 1:m.size[2])
+    return Uniform(LTState(m.robot_init, SVector(x, y)) for x in 1:m.size[1], y in 1:m.size[2])
 end
 
 function POMDPModelTools.render(m::LaserTagPOMDP, step)
@@ -181,11 +181,11 @@ function POMDPModelTools.render(m::LaserTagPOMDP, step)
     end
     for x in 1:nx, y in 1:ny
         cell = cell_ctx((x,y), m.size)
-        if Pos(x, y) in m.obstacles
+        if SVector(x, y) in m.obstacles
             compose!(cell, rectangle(), fill("darkgray"))
         else
             if haskey(step, :bp)
-                op = sqrt(pdf(step[:bp], LTState(robotpos, Pos(x, y))))
+                op = sqrt(pdf(step[:bp], LTState(robotpos, SVector(x, y))))
             else
                 op = 0.0
             end
