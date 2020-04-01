@@ -62,6 +62,11 @@ There are various keyword arguments that control evaluation options for differen
 ## hw4
 
 - `n_episodes::Int`: number of episodes to evaluate on. 1000 is used for submission; a smaller number will run faster.
+
+## hw6
+
+- `n_episodes::Int`: number of episodes to evaluate on. 1000 is used for submission; a smaller number will run faster.
+- `max_steps::Int`: maximum number of steps in each episode
 """
 function evaluate(submission, project::AbstractString; kwargs...)
     score = projects[project].evaluate(submission; kwargs...)

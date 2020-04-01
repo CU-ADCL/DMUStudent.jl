@@ -5,11 +5,15 @@ using StaticArrays
 using POMDPModelTools
 using Random
 using Compose
+using Obfuscatee
+using Nettle
+using ProgressMeter
+using POMDPSimulators
 
 export
     LaserTagPOMDP,
     LTState,
-    pomdp
+    lasertag
 
 Pos = SVector{2, Int}
 
@@ -17,6 +21,7 @@ struct LTState
     robot::Pos
     target::Pos
 end
+
 
 struct LaserTagPOMDP <: POMDP{LTState, Symbol, SVector{4,Int}}
     size::SVector{2, Int}
@@ -39,7 +44,7 @@ end
 
 Random.rand(rng::AbstractRNG, ::Random.SamplerType{LaserTagPOMDP}) = LaserTagPOMDP(rng=rng)
 
-pomdp = LaserTagPOMDP(size=(11,7), n_obstacles=14, rng=MersenneTwister(20))
+lasertag = LaserTagPOMDP(size=(11,7), n_obstacles=14, rng=MersenneTwister(20))
 
 POMDPs.actions(m::LaserTagPOMDP) = (:left, :right, :up, :down, :measure)
 POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for rx in 1:m.size[1], ry in 1:m.size[2], tx in 1:m.size[1], ty in 1:m.size[2]))
@@ -211,6 +216,7 @@ function POMDPModelTools.render(m::LaserTagPOMDP, step)
         target = compose(target_ctx, circle(0.5, 0.5, 0.5), fill("orange"))
     else
         robot = nothing
+        target = nothing
     end
 
     if haskey(step, :o) && haskey(step, :sp)
@@ -251,5 +257,7 @@ function cell_ctx(xy, size)
     x, y = xy
     return context((x-1)/nx, (ny-y)/ny, 1/nx, 1/ny)
 end
+
+@binclude(".bin/hw6_eval")
 
 end
