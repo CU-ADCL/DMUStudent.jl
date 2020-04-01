@@ -21,16 +21,20 @@ end
 struct LaserTagPOMDP <: POMDP{LTState, Symbol, SVector{4,Int}}
     size::SVector{2, Int}
     obstacles::Set{Pos}
+    blocked::BitArray{2}
     robot_init::Pos
 end
 
 function LaserTagPOMDP(;size=(11,7), n_obstacles=8, rng::AbstractRNG=Random.GLOBAL_RNG)
     obstacles = Set{Pos}()
+    blocked = falses(size...)
     while length(obstacles) < n_obstacles
-        push!(obstacles, SVector(rand(rng, 1:size[1]), rand(rng, 1:size[2])))
+        obs = SVector(rand(rng, 1:size[1]), rand(rng, 1:size[2]))
+        push!(obstacles, obs)
+        blocked[obs...] = true
     end
     robot_init = SVector(rand(rng, 1:size[1]), rand(rng, 1:size[2]))
-    LaserTagPOMDP(size, obstacles, robot_init)
+    LaserTagPOMDP(size, obstacles, blocked, robot_init)
 end
 
 Random.rand(rng::AbstractRNG, ::Random.SamplerType{LaserTagPOMDP}) = LaserTagPOMDP(rng=rng)
@@ -61,11 +65,11 @@ const actiondir = Dict(:left=>SVector(-1,0), :right=>SVector(1,0), :up=>SVector(
 const actionind = Dict(:left=>1, :right=>2, :up=>3, :down=>4, :measure=>5)
 
 function bounce(m::LaserTagPOMDP, pos, change)
-    new = pos + change
-    if new in m.obstacles
+    new = clamp.(pos + change, SVector(1,1), m.size)
+    if m.blocked[new[1], new[2]]
         return pos
     else
-        return clamp.(new, SVector(1,1), m.size)
+        return new
     end
 end
 
