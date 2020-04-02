@@ -22,5 +22,7 @@
     filename = "/tmp/lasertag.svg"
     draw(SVG(filename), r)
 
+    r = render(small, (done=true,))
+
     @test evaluate(RandomPolicy(lasertag), "hw6") < 0.0
 end

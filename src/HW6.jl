@@ -227,6 +227,8 @@ function POMDPModelTools.render(m::LaserTagPOMDP, step)
         up = compose(context(), line([(0.5, 0.0),(0.5, -o[3])]))
         down = compose(context(), line([(0.5, 1.0),(0.5, 1.0+o[4])]))
         lasers = compose(robot_ctx, strokedash([1mm]), stroke("red"), left, right, up, down)
+    else
+        lasers = nothing
     end
 
     sz = min(w,h)
