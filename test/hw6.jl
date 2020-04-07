@@ -8,8 +8,9 @@
     using POMDPPolicies
     import POMDPModelTools: render, Uniform
     using Compose
+    using SARSOP
 
-    @show small = LaserTagPOMDP(size=(4,3), n_obstacles=3)
+    small = LaserTagPOMDP(size=(4,3), n_obstacles=3)
 
     @test has_consistent_distributions(small)
 
@@ -25,4 +26,8 @@
     r = render(small, (done=true,))
 
     @test evaluate(RandomPolicy(lasertag), "hw6") < 0.0
+
+    tiny = LaserTagPOMDP(size=(2,2), n_obstacles=0)
+
+    solve(SARSOPSolver(), tiny)
 end

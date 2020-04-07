@@ -1,7 +1,7 @@
 name = "DMUStudent"
 uuid = "a176809d-bc77-421e-b60b-7b215d415e6e"
 authors = ["Zachary Sunberg <sunbergzach@gmail.com>"]
-version = "0.5.3"
+version = "0.5.4"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"

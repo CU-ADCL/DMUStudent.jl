@@ -28,6 +28,21 @@ struct LaserTagPOMDP <: POMDP{LTState, Symbol, SVector{4,Int}}
     obstacles::Set{Pos}
     blocked::BitArray{2}
     robot_init::Pos
+    obsindices::Array{Union{Nothing,Int}, 4}
+end
+
+function lasertag_observations(size)
+    os = SVector{4,Int}[]
+    for left in 0:size[1]-1
+        for right in 0:size[1]-left-1
+            for up in 0:size[2]-1
+                for down in 0:size[2]-up-1
+                    push!(os, SVector(left, right, up, down))
+                end
+            end
+        end
+    end
+    return os
 end
 
 function LaserTagPOMDP(;size=(11,7), n_obstacles=8, rng::AbstractRNG=Random.GLOBAL_RNG)
@@ -39,7 +54,13 @@ function LaserTagPOMDP(;size=(11,7), n_obstacles=8, rng::AbstractRNG=Random.GLOB
         blocked[obs...] = true
     end
     robot_init = SVector(rand(rng, 1:size[1]), rand(rng, 1:size[2]))
-    LaserTagPOMDP(size, obstacles, blocked, robot_init)
+
+    obsindices = Array{Union{Nothing,Int}}(nothing, size[1], size[1], size[2], size[2])
+    for (ind, o) in enumerate(lasertag_observations(size))
+        obsindices[(o.+1)...] = ind
+    end
+
+    LaserTagPOMDP(size, obstacles, blocked, robot_init, obsindices)
 end
 
 Random.rand(rng::AbstractRNG, ::Random.SamplerType{LaserTagPOMDP}) = LaserTagPOMDP(rng=rng)
@@ -48,23 +69,12 @@ lasertag = LaserTagPOMDP(size=(11,7), n_obstacles=14, rng=MersenneTwister(20))
 
 POMDPs.actions(m::LaserTagPOMDP) = (:left, :right, :up, :down, :measure)
 POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for rx in 1:m.size[1], ry in 1:m.size[2], tx in 1:m.size[1], ty in 1:m.size[2]))
-function POMDPs.observations(m::LaserTagPOMDP)
-    os = SVector{4,Int}[]
-    for left in 0:m.size[1]-1
-        for right in 0:m.size[1]-left-1
-            for up in 0:m.size[2]-1
-                for down in 0:m.size[1]-up-1
-                    push!(os, SVector(left, right, up, down))
-                end
-            end
-        end
-    end
-    return os
-end
+POMDPs.observations(m::LaserTagPOMDP) = lasertag_observations(m.size)
 POMDPs.discount(m::LaserTagPOMDP) = 0.99
 
 POMDPs.stateindex(m::LaserTagPOMDP, s) = (LinearIndices((m.size[1],m.size[2]))[s.robot[1], s.robot[2]]-1)*prod(m.size)+LinearIndices((m.size[1],m.size[2]))[s.target[1], s.target[2]]
 POMDPs.actionindex(m::LaserTagPOMDP, a) = actionind[a]
+POMDPs.obsindex(m::LaserTagPOMDP, o) = m.obsindices[(o.+1)...]::Int
 
 const actiondir = Dict(:left=>SVector(-1,0), :right=>SVector(1,0), :up=>SVector(0, 1), :down=>SVector(0,-1), :measure=>SVector(0,0))
 const actionind = Dict(:left=>1, :right=>2, :up=>3, :down=>4, :measure=>5)
