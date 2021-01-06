@@ -28,6 +28,7 @@ RedPen = "6500d021-ed42-4427-8819-7be88027218e"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
+CSV = "0.8"
 DiscreteValueIteration = "v0.4.2"
-RedPen = "v0.2.3"
 QuickPOMDPs = "v0.2.3"
+RedPen = "v0.2.3"
