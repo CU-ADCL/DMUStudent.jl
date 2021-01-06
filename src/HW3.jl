@@ -102,6 +102,13 @@ function POMDPs.transition(m::DenseGridWorld, s::AbstractVector{Int}, a::Symbol)
     return SparseCat(destinations, probs)
 end
 
+# this helps type stability because transition can return Deterministic or SparseCat
+function POMDPs.gen(m::DenseGridWorld, s::AbstractVector{Int}, a::Symbol, rng::AbstractRNG)
+    sp = rand(rng, transition(m, s, a))::statetype(m)
+    r = reward(m, s)
+    return (sp=sp, r=r)
+end
+
 function inbounds(m::DenseGridWorld, s::AbstractVector{Int})
     return 1 <= s[1] <= m.size[1] && 1 <= s[2] <= m.size[2]
 end
