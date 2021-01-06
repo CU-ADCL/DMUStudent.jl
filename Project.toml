@@ -29,5 +29,6 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
 DiscreteValueIteration = "v0.4.2"
-RedPen = "v0.2.3"
+POMDPPolicies = "0.4"
 QuickPOMDPs = "v0.2.3"
+RedPen = "v0.2.3"
