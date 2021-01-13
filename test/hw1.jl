@@ -5,19 +5,13 @@
     @test 1 <= fy([1, 2, 4]) <= 7
 
     f(x, y) = sqrt(x^2 + y^2)
-    score, _ = HW1.evaluate(f, "test1234@colorado.edu")
-    @test score == 1
+    results = HW1.evaluate(f, "test1234@colorado.edu")
+    @test results.score == 1
+
+    results = HW1.evaluate(f)
+    @test results.score == 1
 
     g(x, y) = x+y
-    score, _  = HW1.evaluate(g, "test1234@colorado.edu")
-    @test score == 0
-
-    @test evaluate(f, "hw1") == 1
-    @test evaluate(g, "hw1") == 0
-    
-    @test submit(f, "hw1", "test1234@colorado.edu") == 1
-    sleep(0.1)
-    shw1 = server_state["hw1"]
-    @test shw1["email"] == "test1234@colorado.edu"
-    @test shw1["score"] == 1
+    results = HW1.evaluate(g, "test1234@colorado.edu")
+    @test results.score == 0
 end

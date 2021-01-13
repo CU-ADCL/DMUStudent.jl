@@ -1,19 +1,20 @@
 module HW1
 
 using Obfuscatee
-using CSV
-using Nettle
-using JSON
+using Nettle: hexdigest
+import JSON
+
+import DMUStudent
 
 export
     fx,
     fy
 
 # mostly to get binaries to recompile
-version = v"0.1.3"
+version = v"1.0.11"
 
 @binclude(".bin/hw1_4")
 
-evaluate = evaluate_for_submission = @binclude(".bin/hw1_eval")
+evaluate = @binclude(".bin/hw1_eval")
 
 end
