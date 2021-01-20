@@ -12,7 +12,7 @@ In Julia, run
 
 ```julia
 using Pkg
-pkg"update"
+pkg"registry add https://github.com/JuliaRegistries/General"
 pkg"registry add https://github.com/sisl/Registry" # for the Obfuscatee.jl package
 pkg"add https://github.com/zsunberg/DMUStudent.jl"
 ```
