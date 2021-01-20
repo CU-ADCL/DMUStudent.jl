@@ -13,11 +13,20 @@ using Discretizers
 using POMDPModelTools
 using POMDPPolicies
 
+import DMUStudent
+
 export
     UnresponsiveACASMDP,
     ACASState,
     transition_matrices,
     reward_vectors
+
+# Problem 4: Grid World
+
+
+
+
+# Problem 5: ACAS
 
 const v = 44000 # 500 mph in ft per minute
 const hlim = (27500, 32500) # ft
@@ -30,7 +39,14 @@ const delta_hdot = 1500 # ft/min
 const timespan = 150/60 # minutes
 const maxd = timespan*2*v
 
-struct UnresponsiveACASMDP <: MDP{Int, Int}
+struct ACASState <: FieldVector{4, Float64}
+    h_o::Float64
+    hdot_o::Float64
+    h_i::Float64
+    d::Float64
+end
+
+struct UnresponsiveACASMDP <: MDP{ACASState, Int}
     dt::Float64 # minutes
     hbins::LinearDiscretizer{Float64, Int}
     hdotbins::LinearDiscretizer{Float64, Int}
@@ -54,40 +70,31 @@ function UnresponsiveACASMDP(n)
     return UnresponsiveACASMDP(dt, hbins, hdotbins, dbins, ccdf)
 end
 
-POMDPs.actions(m::UnresponsiveACASMDP) = 1:3
-POMDPs.states(m::UnresponsiveACASMDP) = 1:prod(map(nlabels, (m.hbins, m.hdotbins, m.hbins, m.dbins)))
+POMDPs.actions(m::UnresponsiveACASMDP) = (-delta_hdot, 0, delta_hdot)
+POMDPs.states(m::UnresponsiveACASMDP) = [convert_s(ACASState, si, m) for si in 1:prod(map(nlabels, (m.hbins, m.hdotbins, m.hbins, m.dbins)))]
 
 POMDPs.discount(::UnresponsiveACASMDP) = 0.99
 
-struct ACASState <: FieldVector{4, Float64}
-    h_o::Float64
-    hdot_o::Float64
-    h_i::Float64
-    d::Float64
-end
-
-function POMDPs.reward(m::UnresponsiveACASMDP, s, a, sp)
+function POMDPs.reward(m::UnresponsiveACASMDP, s::ACASState, a, sp::ACASState)
     r = 0.0
-    acasp = convert_s(ACASState, sp, m)
-    if is_nmac(m, acasp)
+    if is_nmac(m, sp)
         r -= 100.0
     end
-    r -= abs(a-2)
+    r -= abs(sign(a))
     return r
 end
 
-function POMDPs.transition(m::UnresponsiveACASMDP, s, a)
-    acas = convert_s(ACASState, s, m)
-    d = acas.d - 2*v*m.dt
-    hdot_o = clamp(acas.hdot_o + (a-2)*delta_hdot, -3000, 3000)
-    h_o = acas.h_o + hdot_o*m.dt
+function POMDPs.transition(m::UnresponsiveACASMDP, s::ACASState, a)
+    d = s.d - 2*v*m.dt
+    hdot_o = clamp(s.hdot_o + a, -3000, 3000)
+    h_o = bincenter(m.hbins, encode(m.hbins, s.h_o + hdot_o*m.dt))
     
     nhbins = nlabels(m.hbins)
-    h_i_bin = encode(m.hbins, acas.h_i)
+    h_i_bin = encode(m.hbins, s.h_i)
 
-    states = Vector{Int}(undef, nhbins)
+    states = Vector{ACASState}(undef, nhbins)
     for (i, h) in enumerate(bincenters(m.hbins))
-        states[i] = convert_s(Int, ACASState(h_o, hdot_o, h, d), m)
+        states[i] = ACASState(h_o, hdot_o, h, d)
     end
 
     start = nhbins-h_i_bin + 1
@@ -105,9 +112,8 @@ function POMDPs.transition(m::UnresponsiveACASMDP, s, a)
     return SparseCat(states, probs)
 end
 
-function POMDPs.isterminal(m::UnresponsiveACASMDP, s)
-    acas = convert_s(ACASState, s, m)
-    if is_nmac(m, acas) || acas.d <= binedges(m.dbins)[2]
+function POMDPs.isterminal(m::UnresponsiveACASMDP, s::ACASState)
+    if is_nmac(m, s) || s.d <= binedges(m.dbins)[2]
         return true
     else
         return false
@@ -124,21 +130,24 @@ function POMDPs.convert_s(::Type{ACASState}, s::Integer, m::UnresponsiveACASMDP)
     return ACASState(h_o, hdot_o, h_i, d)
 end
 
-function POMDPs.convert_s(::Type{Int}, acas::ACASState, m::UnresponsiveACASMDP)
-    h_o_bin = encode(m.hbins, acas.h_o)
-    hdot_o_bin = encode(m.hdotbins, acas.hdot_o)
-    h_i_bin = encode(m.hbins, acas.h_i)
-    dbin = encode(m.dbins, maxd-acas.d)
+function POMDPs.convert_s(::Type{Int}, s::ACASState, m::UnresponsiveACASMDP)
+    return stateindex(m, s)
+end
+
+function POMDPs.stateindex(m::UnresponsiveACASMDP, s)
+    h_o_bin = encode(m.hbins, s.h_o)
+    hdot_o_bin = encode(m.hdotbins, s.hdot_o)
+    h_i_bin = encode(m.hbins, s.h_i)
+    dbin = encode(m.dbins, maxd-s.d)
     shape = map(nlabels, (m.hbins, m.hdotbins, m.hbins, m.dbins))
     return LinearIndices(shape)[h_o_bin, hdot_o_bin, h_i_bin, dbin]
 end
 
-POMDPs.stateindex(m::UnresponsiveACASMDP, s) = s
-POMDPs.actionindex(m::UnresponsiveACASMDP, a) = a
+POMDPs.actionindex(m::UnresponsiveACASMDP, a) = sign(a)+2
 
 # less than 100 ft vertically and 500 ft horizontally
-function is_nmac(m::UnresponsiveACASMDP, acas::ACASState)
-    return (acas.d < binedges(m.dbins)[2] || acas.d <= 500) && abs(acas.h_o - acas.h_i) <= 100
+function is_nmac(m::UnresponsiveACASMDP, s::ACASState)
+    return (s.d < binedges(m.dbins)[2] || s.d <= 500) && abs(s.h_o - s.h_i) <= 100
 end
 
 function cached_cdf(hbins, stdev)
@@ -185,7 +194,7 @@ T[1][2,3] # probability of transitioning from state 2 to 3 when action 1 is take
 # Keyword Arguments
 - `sparse::Bool`: if true, returns a sparse matrix representation (with significant memory savings!), if false, the matrices will be dense
 """
-function transition_matrices(m::UnresponsiveACASMDP; sparse::Bool=false)
+function transition_matrices(m::MDP; sparse::Bool=false)
     transmats = POMDPModelTools.transition_matrix_a_s_sp(m)
     if !sparse
         transmats = [convert(Matrix, t) for t in transmats]
@@ -195,7 +204,7 @@ function transition_matrices(m::UnresponsiveACASMDP; sparse::Bool=false)
     return Dict{Int,mtype}(oa[ai]=>transmats[ai] for ai in 1:length(actions(m)))
 end
 
-function reward_vectors(m::UnresponsiveACASMDP)
+function reward_vectors(m::MDP)
     d = Dict{actiontype(m), Vector{Float64}}()
     for a in actions(m)
         rv = POMDPModelTools.policy_reward_vector(m, FunctionPolicy(s->a))
