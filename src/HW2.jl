@@ -12,6 +12,7 @@ using Distributions
 using Discretizers
 using POMDPModelTools
 using POMDPPolicies
+using POMDPModels: SimpleGridWorld
 
 import DMUStudent
 
@@ -19,12 +20,13 @@ export
     UnresponsiveACASMDP,
     ACASState,
     transition_matrices,
-    reward_vectors
+    reward_vectors,
+    grid_world,
+    render
 
 # Problem 4: Grid World
 
-
-
+const grid_world = SimpleGridWorld()
 
 # Problem 5: ACAS
 
@@ -180,7 +182,7 @@ end
 """
     transition_matrices(m, [sparse=true])
 
-Create a dictionary mapping actions to transition matrices for UnresponsiveACASMDP m.
+Create a dictionary mapping actions to transition matrices for MDP m.
 
 # Example
 ```julia
@@ -189,7 +191,7 @@ T[1][2,3] # probability of transitioning from state 2 to 3 when action 1 is take
 ```
 
 # Arguments
-- `m`: `UnresponsiveACASMDP` model
+- `m`: `MDP` model
 
 # Keyword Arguments
 - `sparse::Bool`: if true, returns a sparse matrix representation (with significant memory savings!), if false, the matrices will be dense
@@ -201,7 +203,7 @@ function transition_matrices(m::MDP; sparse::Bool=false)
     end
     mtype = typeof(first(transmats))
     oa = ordered_actions(m)
-    return Dict{Int,mtype}(oa[ai]=>transmats[ai] for ai in 1:length(actions(m)))
+    return Dict{actiontype(m), mtype}(oa[ai]=>transmats[ai] for ai in 1:length(actions(m)))
 end
 
 function reward_vectors(m::MDP)
