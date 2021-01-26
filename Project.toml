@@ -1,11 +1,12 @@
 name = "DMUStudent"
 uuid = "a176809d-bc77-421e-b60b-7b215d415e6e"
 authors = ["Zachary Sunberg <sunbergzach@gmail.com>"]
-version = "1.2.0"
+version = "1.2.1"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
+Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Discretizers = "6e83dbb3-75ca-525b-8ae2-3751f0dd50b4"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -19,6 +20,7 @@ POMDPs = "a93abf59-7444-517b-a68a-c42f96afdd7d"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
 CSV = "0.8"
@@ -35,3 +37,4 @@ POMDPPolicies = "0.4"
 POMDPs = "0.9"
 ProgressMeter = "1.4"
 StaticArrays = "1"
+UnicodePlots = "1"

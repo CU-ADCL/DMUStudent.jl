@@ -3,6 +3,7 @@
     using POMDPs
     using DiscreteValueIteration
     using POMDPTesting
+    using POMDPModelTools: render
 
     for n in 1
         m = UnresponsiveACASMDP(n)
@@ -22,6 +23,19 @@
 
         short = v[1:end-1]
         @test_throws ErrorException HW2.evaluate(short)
+
+        s = rand(initialstate(m))
+        sprint(show, render(m, s))
+        io = IOBuffer()
+        show(io, MIME("text/html"), render(m,s))
+
+        v = convert(Vector{Int}, s)
+        a = 0
+        @test reward(m, v, a, v) == reward(m, s, a, s)
+        @test support(transition(m, v, a)) == support(transition(m, s, a))
+        @test isterminal(m, v) == isterminal(m, s)
+        @test convert_s(Int, v, m) == convert_s(Int, s, m)
+        @test stateindex(m, v) == stateindex(m, s)
     end
 
     medium = ones(1250*19^3)

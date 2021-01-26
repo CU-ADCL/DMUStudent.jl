@@ -14,6 +14,9 @@ using POMDPModelTools
 using POMDPPolicies
 using POMDPModels: SimpleGridWorld
 
+import UnicodePlots
+using Compose: compose, context, text, polygon, hcenter, hleft, hright, vtop
+
 import DMUStudent
 
 export
@@ -85,6 +88,7 @@ function POMDPs.reward(m::UnresponsiveACASMDP, s::ACASState, a, sp::ACASState)
     r -= abs(sign(a))
     return r
 end
+POMDPs.reward(m::UnresponsiveACASMDP, v::AbstractVector, a, vp::AbstractVector) = reward(m, convert(ACASState, v), a, convert(ACASState, vp))
 
 function POMDPs.transition(m::UnresponsiveACASMDP, s::ACASState, a)
     d = s.d - 2*v*m.dt
@@ -113,6 +117,7 @@ function POMDPs.transition(m::UnresponsiveACASMDP, s::ACASState, a)
 
     return SparseCat(states, probs)
 end
+POMDPs.transition(m::UnresponsiveACASMDP, s::AbstractVector, a) = transition(m::UnresponsiveACASMDP, convert(ACASState, s), a)
 
 function POMDPs.isterminal(m::UnresponsiveACASMDP, s::ACASState)
     if is_nmac(m, s) || s.d <= binedges(m.dbins)[2]
@@ -121,6 +126,9 @@ function POMDPs.isterminal(m::UnresponsiveACASMDP, s::ACASState)
         return false
     end
 end
+POMDPs.isterminal(m::UnresponsiveACASMDP, s::AbstractVector) = isterminal(m, convert(ACASState, s))
+
+POMDPs.initialstate(::UnresponsiveACASMDP) = Deterministic(ACASState(sum(hlim)/2, 0.0, sum(hlim)/2, maxd))
 
 function POMDPs.convert_s(::Type{ACASState}, s::Integer, m::UnresponsiveACASMDP)
     shape = map(nlabels, (m.hbins, m.hdotbins, m.hbins, m.dbins))
@@ -135,8 +143,10 @@ end
 function POMDPs.convert_s(::Type{Int}, s::ACASState, m::UnresponsiveACASMDP)
     return stateindex(m, s)
 end
+POMDPs.convert_s(::Type{Int}, s::AbstractVector, m::UnresponsiveACASMDP) = convert_s(Int, convert(ACASState, s), m)
 
-function POMDPs.stateindex(m::UnresponsiveACASMDP, s)
+function POMDPs.stateindex(m::UnresponsiveACASMDP, v)
+    s = convert(ACASState, v)
     h_o_bin = encode(m.hbins, s.h_o)
     hdot_o_bin = encode(m.hdotbins, s.hdot_o)
     h_i_bin = encode(m.hbins, s.h_i)
@@ -214,6 +224,8 @@ function reward_vectors(m::MDP)
     end
     return d
 end
+
+include("hw2_vis.jl")
 
 @binclude(".bin/hw2_eval")
 
