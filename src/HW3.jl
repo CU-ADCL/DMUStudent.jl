@@ -14,7 +14,7 @@ using Compose
 using ColorSchemes
 using Nettle
 using JSON
-using POMDPModels # just to silence warning when HW4 is imported
+# using POMDPModels # just to silence warning when HW4 is imported
 
 export
     DenseGridWorld,
@@ -117,7 +117,6 @@ end
 
 POMDPs.reward(m::DenseGridWorld, s::AbstractVector{Int}) = get(m.rewards, s, 0.0) - m.costs[s...]
 POMDPs.reward(m::DenseGridWorld, s::AbstractVector{Int}, a::Symbol) = reward(m, s)
-
 
 # discount
 
