@@ -26,6 +26,9 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
+      - name: Add CustomRegistry
+        run: julia -e 'using Pkg; Pkg.Registry.add(Pkg.RegistrySpec(url="http://github.com/JuliaRegistries/General")); Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/sisl/Registry")); Pkg.Registry.status()'
+        shell: bash
       - uses: actions/cache@v1
         env:
           cache-name: cache-artifacts
