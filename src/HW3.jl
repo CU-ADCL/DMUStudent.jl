@@ -14,11 +14,18 @@ using Compose
 using ColorSchemes
 using Nettle
 using JSON
+using Colors: weighted_color_mean, hex, @colorant_str
+using D3Trees: D3Tree, inchrome
+using Printf: @sprintf
+using POMDPPolicies: FunctionPolicy
 # using POMDPModels # just to silence warning when HW4 is imported
+
+import DMUStudent
 
 export
     DenseGridWorld,
-    GWPos
+    GWPos,
+    visualize_tree
 
 const GWPos = SVector{2,Int}
 const DEFAULT_SIZE = (100,100)
@@ -57,7 +64,7 @@ function POMDPs.stateindex(m::DenseGridWorld, s::AbstractVector{Int})
     end
 end
 
-POMDPs.initialstate_distribution(m::DenseGridWorld) = POMDPModelTools.Uniform(states(m)[1:end-1])
+POMDPs.initialstate(m::DenseGridWorld) = POMDPModelTools.Uniform(states(m)[1:end-1])
 
 # Actions
 
@@ -131,6 +138,7 @@ function POMDPs.convert_a(::Type{Symbol}, vec::V, m::DenseGridWorld) where {V<:A
 end
 
 include("hw3_vis.jl")
+include("hw3_tree_vis.jl")
 
 @binclude(".bin/hw3_eval")
 
