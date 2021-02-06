@@ -31,6 +31,7 @@ UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 [compat]
 CSV = "0.8"
 ColorSchemes = "3.10"
+Colors = "0.12"
 Compose = "0.9"
 DataFrames = "0.22"
 Discretizers = "3"
