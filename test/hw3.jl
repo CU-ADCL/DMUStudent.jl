@@ -26,4 +26,10 @@
     t = Dict((1,1,2)=>1)
     tv = visualize_tree(q, n, t, 1)
     sprint((io, x)->show(io, MIME("text/html"), x), tv)
+
+    q = Dict((1,1)=>0.0)
+    n = Dict((1,1)=>1)
+    t = Dict((1,1,2)=>1)
+    tv = visualize_tree(q, n, t, 1)
+    sprint((io, x)->show(io, MIME("text/html"), x), tv)
 end

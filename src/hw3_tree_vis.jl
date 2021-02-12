@@ -43,8 +43,8 @@ function visualize_tree(q::Dict, n::Dict, t::Dict, root_state; title="MCTS Tree"
 
     # create sasp nodes and push children to sa
     for (s, a, sp) in keys(t)
-        txt = "$sp\nN: $(total_n[sp])"
-        push!(children, state_children[sp])
+        txt = "$sp\nN: $(get(total_n, sp, 0))"
+        push!(children, get(state_children, sp, Int[]))
         push!(text, txt)
         push!(style, "")
         w = 20.0*sqrt(t[(s,a,sp)]/n[(s, a)])
