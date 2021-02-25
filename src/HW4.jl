@@ -18,7 +18,7 @@ end
 
 function GridWorld()
     rewards = Dict(SA[7,7]=> 10.0,
-                   SA[3,1]=>  3.0,
+                   SA[3,1]=> -2.0,
                    SA[4,3]=>-10.0,
                    SA[7,6]=> -5.0)
     return GridWorld(SA[10, 10], rewards, SA[1,1])
