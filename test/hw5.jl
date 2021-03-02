@@ -31,4 +31,5 @@
 
     @test HW5.evaluate(s->0.0).score < 0.0
     @test HW5.evaluate(s->0.0, "zachary.sunberg@colorado.edu").score < 0.0
+    @test HW5.evaluate(s->rand(actions(mc)), "zachary.sunberg@colorado.edu").score < 0.0
 end
