@@ -3,6 +3,8 @@
     using CommonRLInterface
     using Compose
 
+    @test mc isa AbstractEnv
+
     A = actions(mc)
     done = false
     rsum = 0.0
