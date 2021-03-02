@@ -38,11 +38,21 @@
     # test whether it has enough energy
     disc = 1.0
     rsum = 0.0
-    mc.s = [1.5, 0.0]
-    while !terminated(mc) && disc > 0.005
+    mc.s = [1.56, 0.0]
+    while !terminated(mc) && disc > 0.001
         r = act!(mc, -1.0)
         rsum += disc*r
         disc *= 0.99
     end
     @test rsum > 200.0
+
+    disc = 1.0
+    rsum = 0.0
+    mc.s = [1.4, 0.0]
+    while !terminated(mc) && disc > 0.001
+        r = act!(mc, -1.0)
+        rsum += disc*r
+        disc *= 0.99
+    end
+    @test rsum < 0.0
 end
