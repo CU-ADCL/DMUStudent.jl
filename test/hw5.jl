@@ -34,4 +34,15 @@
     @test HW5.evaluate(s->0.0).score < 0.0
     @test HW5.evaluate(s->0.0, "zachary.sunberg@colorado.edu").score < 0.0
     @test HW5.evaluate(s->rand(actions(mc)), "zachary.sunberg@colorado.edu").score < 0.0
+
+    # test whether it has enough energy
+    disc = 1.0
+    rsum = 0.0
+    mc.s = [1.5, 0.0]
+    while !terminated(mc) && disc > 0.005
+        r = act!(mc, -1.0)
+        rsum += disc*r
+        disc *= 0.99
+    end
+    @test rsum > 200.0
 end
