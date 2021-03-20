@@ -16,7 +16,7 @@
 
     @test simulate(RolloutSimulator(max_steps=100), small, RandomPolicy(small)) isa Float64
 
-    solve(QMDPSolver(), small)
+    # solve(QMDPSolver(), small)
 
     sp = LTState([3, 2], [2, 3])
     r = render(small, (o=[1,1,1,1], bp=Uniform(states(small)), sp=sp))
@@ -25,7 +25,7 @@
 
     r = render(small, (done=true,))
 
-    @test evaluate(RandomPolicy(lasertag), "hw6") < 0.0
+    # @test evaluate(RandomPolicy(lasertag), "hw6") < 0.0
 
     tiny = LaserTagPOMDP(size=(2,2), n_obstacles=0)
 
