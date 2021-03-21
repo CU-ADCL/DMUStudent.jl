@@ -205,7 +205,7 @@ function POMDPModelTools.render(m::LaserTagPOMDP, step)
     nx, ny = m.size
     cells = []
     if haskey(step, :bp) && !ismissing(step[:bp])
-        robotpos = first(support(step[:bp])).robot
+        robotpos = first(filter(sp->pdf(step[:bp], sp) > 0.0, support(step[:bp]))).robot
     end
     for x in 1:nx, y in 1:ny
         cell = cell_ctx((x,y), m.size)
