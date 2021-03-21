@@ -204,7 +204,7 @@ end
 function POMDPModelTools.render(m::LaserTagPOMDP, step)
     nx, ny = m.size
     cells = []
-    if haskey(step, :bp)
+    if haskey(step, :bp) && !ismissing(step[:bp])
         robotpos = first(support(step[:bp])).robot
     end
     for x in 1:nx, y in 1:ny
@@ -212,7 +212,7 @@ function POMDPModelTools.render(m::LaserTagPOMDP, step)
         if SVector(x, y) in m.obstacles
             compose!(cell, rectangle(), fill("darkgray"))
         else
-            if haskey(step, :bp)
+            if haskey(step, :bp) && !ismissing(step[:bp])
                 op = sqrt(pdf(step[:bp], LTState(robotpos, SVector(x, y))))
             else
                 op = 0.0
