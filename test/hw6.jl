@@ -25,7 +25,8 @@
 
     r = render(small, (done=true,))
 
-    @test evaluate(RandomPolicy(lasertag), "hw6") < 0.0
+    @test HW6.evaluate(RandomPolicy(LaserTagPOMDP())).score < 0.0
+    @test HW6.evaluate(RandomPolicy(LaserTagPOMDP()), "zachary.sunberg@colorado.edu").score < 0.0
 
     tiny = LaserTagPOMDP(size=(2,2), n_obstacles=0)
 

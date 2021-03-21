@@ -1,5 +1,6 @@
 module HW6
 
+using DMUStudent
 using POMDPs
 using StaticArrays
 using POMDPModelTools
@@ -16,18 +17,22 @@ export
     LTState,
     lasertag
 
-Pos = SVector{2, Int}
-
 struct LTState
-    robot::Pos
-    target::Pos
+    robot::SVector{2, Int}
+    target::SVector{2, Int}
 end
+
+Base.convert(::Type{SVector{4, Int}}, s::LTState) = SA[s.robot..., s.target...]
+Base.convert(::Type{AbstractVector{Int}}, s::LTState) = convert(SVector{4, Int}, s)
+Base.convert(::Type{AbstractVector}, s::LTState) = convert(SVector{4, Int}, s)
+Base.convert(::Type{AbstractArray}, s::LTState) = convert(SVector{4, Int}, s)
+
 
 struct LaserTagPOMDP <: POMDP{LTState, Symbol, SVector{4,Int}}
     size::SVector{2, Int}
-    obstacles::Set{Pos}
+    obstacles::Set{SVector{2, Int}}
     blocked::BitArray{2}
-    robot_init::Pos
+    robot_init::SVector{2, Int}
     obsindices::Array{Union{Nothing,Int}, 4}
 end
 
@@ -45,8 +50,8 @@ function lasertag_observations(size)
     return os
 end
 
-function LaserTagPOMDP(;size=(11,7), n_obstacles=8, rng::AbstractRNG=Random.GLOBAL_RNG)
-    obstacles = Set{Pos}()
+function LaserTagPOMDP(;size=(13, 8), n_obstacles=12, rng::AbstractRNG=Random.MersenneTwister(20))
+    obstacles = Set{SVector{2, Int}}()
     blocked = falses(size...)
     while length(obstacles) < n_obstacles
         obs = SVector(rand(rng, 1:size[1]), rand(rng, 1:size[2]))
@@ -65,10 +70,10 @@ end
 
 Random.rand(rng::AbstractRNG, ::Random.SamplerType{LaserTagPOMDP}) = LaserTagPOMDP(rng=rng)
 
-lasertag = LaserTagPOMDP(size=(11,7), n_obstacles=14, rng=MersenneTwister(20))
+# lasertag = LaserTagPOMDP(size=(14,10), n_obstacles=15, rng=MersenneTwister(20))
 
 POMDPs.actions(m::LaserTagPOMDP) = (:left, :right, :up, :down, :measure)
-POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for rx in 1:m.size[1], ry in 1:m.size[2], tx in 1:m.size[1], ty in 1:m.size[2]))
+POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for tx in 1:m.size[1], ty in 1:m.size[2], rx in 1:m.size[1], ry in 1:m.size[2]))
 POMDPs.observations(m::LaserTagPOMDP) = lasertag_observations(m.size)
 POMDPs.discount(m::LaserTagPOMDP) = 0.99
 
@@ -192,22 +197,22 @@ function laserbounce(ranges, robot, obstacle)
     return SVector(left, right, up, down)
 end
 
-function POMDPs.initialstate_distribution(m::LaserTagPOMDP)
+function POMDPs.initialstate(m::LaserTagPOMDP)
     return Uniform(LTState(m.robot_init, SVector(x, y)) for x in 1:m.size[1], y in 1:m.size[2])
 end
 
 function POMDPModelTools.render(m::LaserTagPOMDP, step)
     nx, ny = m.size
     cells = []
-    if haskey(step, :bp)
-        robotpos = first(support(step[:bp])).robot
+    if haskey(step, :bp) && !ismissing(step[:bp])
+        robotpos = first(filter(sp->pdf(step[:bp], sp) > 0.0, support(step[:bp]))).robot
     end
     for x in 1:nx, y in 1:ny
         cell = cell_ctx((x,y), m.size)
         if SVector(x, y) in m.obstacles
             compose!(cell, rectangle(), fill("darkgray"))
         else
-            if haskey(step, :bp)
+            if haskey(step, :bp) && !ismissing(step[:bp])
                 op = sqrt(pdf(step[:bp], LTState(robotpos, SVector(x, y))))
             else
                 op = 0.0
