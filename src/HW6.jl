@@ -50,7 +50,7 @@ function lasertag_observations(size)
     return os
 end
 
-function LaserTagPOMDP(;size=(14,10), n_obstacles=15, rng::AbstractRNG=Random.MersenneTwister(20))
+function LaserTagPOMDP(;size=(13, 8), n_obstacles=12, rng::AbstractRNG=Random.MersenneTwister(20))
     obstacles = Set{SVector{2, Int}}()
     blocked = falses(size...)
     while length(obstacles) < n_obstacles
