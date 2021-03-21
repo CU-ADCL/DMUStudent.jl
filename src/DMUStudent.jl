@@ -2,13 +2,12 @@ module DMUStudent
 
 using Nettle: hexdigest
 
-export
+export HW6
 #     HW1,
 #     HW2,
 #     HW3,
 #     HW4,
 #     HW5,
-    HW6
 
 is_identikey_colorado_email(email) = !isnothing(match(r"^[a-z]{4}\d{4}@colorado.edu$", email))
 

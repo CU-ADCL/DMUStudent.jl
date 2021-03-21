@@ -1,5 +1,6 @@
 module HW6
 
+using DMUStudent
 using POMDPs
 using StaticArrays
 using POMDPModelTools
@@ -72,7 +73,7 @@ Random.rand(rng::AbstractRNG, ::Random.SamplerType{LaserTagPOMDP}) = LaserTagPOM
 # lasertag = LaserTagPOMDP(size=(14,10), n_obstacles=15, rng=MersenneTwister(20))
 
 POMDPs.actions(m::LaserTagPOMDP) = (:left, :right, :up, :down, :measure)
-POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for rx in 1:m.size[1], ry in 1:m.size[2], tx in 1:m.size[1], ty in 1:m.size[2]))
+POMDPs.states(m::LaserTagPOMDP) = vec(collect(LTState(SVector(rx, ry), SVector(tx, ty)) for tx in 1:m.size[1], ty in 1:m.size[2], rx in 1:m.size[1], ry in 1:m.size[2]))
 POMDPs.observations(m::LaserTagPOMDP) = lasertag_observations(m.size)
 POMDPs.discount(m::LaserTagPOMDP) = 0.99
 
