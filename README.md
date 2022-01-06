@@ -6,16 +6,17 @@ Examining and using any of the code in this package is **encouraged**, except fo
 
 ## Installation and Testing
 
+Installation, updating and testing are performed in [Julia's `pkg>` mode](https://docs.julialang.org/en/v1/stdlib/Pkg/). To enter `pkg>` mode, press `]` in julia. To return to normal julia execution mode from `pkg>` mode, press backspace.
+
 ### Installation
 
-In Julia, first press `]` to enter package management mode, then, with the `pkg>` prompt, run
 ```
 pkg> add https://github.com/zsunberg/DMUStudent.jl
 ```
 
 ### Updating
 
-Students should always use the latest version. To get the latest version, press `]` to enter `pkg` mode, and then run
+Students should always use the latest version. To get the latest version, run
 ```
 pkg> update
 ```
@@ -24,7 +25,7 @@ pkg> update
 
 Tests for the package can be run with:
 ```julia
-using Pkg; pkg"test DMUStudent"
+pkg> test DMUStudent
 ```
 
 ## Homework code
