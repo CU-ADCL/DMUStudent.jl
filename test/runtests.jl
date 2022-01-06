@@ -9,9 +9,9 @@ import JSON
     @test !DMUStudent.is_identikey_colorado_email("sunbergzach@gmail.com")
 end
 
-# include("hw1.jl")
+include("hw1.jl")
 # include("hw2.jl")
 # include("hw3.jl")
 # include("hw4.jl")
 # include("hw5.jl")
-include("hw6.jl")
+# include("hw6.jl")
