@@ -1,12 +1,12 @@
 module HW6
 
 using DMUStudent
+using ..Obfuscatee
 using POMDPs
 using StaticArrays
 using POMDPModelTools
 using Random
 using Compose
-using Obfuscatee
 using Nettle
 using ProgressMeter
 using POMDPSimulators

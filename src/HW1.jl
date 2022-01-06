@@ -1,6 +1,6 @@
 module HW1
 
-using Obfuscatee
+using ..Obfuscatee
 using Nettle: hexdigest
 import JSON
 
@@ -11,7 +11,7 @@ export
     fy
 
 # mostly to get binaries to recompile
-version = v"1.0.11"
+version = v"2.0.0"
 
 @binclude(".bin/hw1_4")
 
