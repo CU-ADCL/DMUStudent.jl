@@ -32,7 +32,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
-CSV = "0.8"
+CSV = "0.8, 0.9"
 ColorSchemes = "3.10"
 Colors = "0.12"
 CommonRLInterface = "0.3.1"
