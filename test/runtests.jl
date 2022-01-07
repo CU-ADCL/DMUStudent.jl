@@ -1,6 +1,5 @@
 using DMUStudent
 using Test
-using DataFrames
 import JSON
 
 @testset "email check" begin
