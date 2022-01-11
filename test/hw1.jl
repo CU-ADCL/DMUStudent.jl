@@ -1,17 +1,24 @@
 @testset "HW1" begin
     using DMUStudent.HW1
-    @test 1 <= fx([2]) <= 4
-    @test 1 <= fy([2]) <= 4
-    @test 1 <= fy([1, 2, 4]) <= 7
 
-    f(x, y) = sqrt(x^2 + y^2)
+    f(x) = max(zero(x),x)
     results = HW1.evaluate(f, "test1234@colorado.edu")
     @test results.score == 1
 
     results = HW1.evaluate(f)
     @test results.score == 1
 
-    g(x, y) = x+y
+    function g(x)
+        if x > 0
+            return 0
+        else
+            x
+        end
+    end
     results = HW1.evaluate(g, "test1234@colorado.edu")
+    @test results.score == 0
+
+    h(x) = max(0, x)
+    results = HW1.evaluate(h, "test1234@colorado.edu")
     @test results.score == 0
 end

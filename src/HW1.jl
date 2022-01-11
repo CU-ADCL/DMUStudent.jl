@@ -3,17 +3,12 @@ module HW1
 using ..Obfuscatee
 using Nettle: hexdigest
 import JSON
+using Test: @inferred
 
 import DMUStudent
 
-export
-    fx,
-    fy
-
 # mostly to get binaries to recompile
-version = v"2.0.0"
-
-@binclude(".bin/hw1_4")
+version = v"3.0.0"
 
 """
     evaluate(f, [email]; fname="results.json")
