@@ -1,6 +1,6 @@
 module HW2
 
-using Obfuscatee
+using ..Obfuscatee
 using Nettle
 using JSON
 using ProgressMeter
