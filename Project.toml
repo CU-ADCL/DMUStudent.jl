@@ -5,13 +5,21 @@ version = "2.1.0"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
+Discretizers = "6e83dbb3-75ca-525b-8ae2-3751f0dd50b4"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Nettle = "49dea1ee-f6fa-5aa6-9a11-8816cee7d4b9"
+POMDPModelTools = "08074719-1b2a-587c-a292-00f91cc44415"
+POMDPModels = "355abbd5-f08e-5560-ac9e-8b5f2592a0ca"
+POMDPPolicies = "182e52fb-cfd0-5e46-8c26-fd0667c990f4"
+POMDPs = "a93abf59-7444-517b-a68a-c42f96afdd7d"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
 REPL = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
 JSON = "0.21"
