@@ -16,7 +16,7 @@
         v = [value(policy, s) for s in states(m)]
 
         @test HW2.evaluate(v).score == n
-        @test HW2.evaluate(v, "test1234@colorado.edu").score == n
+        @test HW2.evaluate(v, "zachary.sunberg@colorado.edu").score == n
 
         v[3] += 1.0
         @test HW2.evaluate(v).score == 0
