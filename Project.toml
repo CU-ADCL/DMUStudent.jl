@@ -23,6 +23,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
+Discretizers = "3"
 JSON = "0.21"
 Nettle = "0.5"
 ProgressMeter = "1.4"
