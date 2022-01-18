@@ -24,6 +24,7 @@ UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
 Discretizers = "3"
+Distributions = "0.25"
 JSON = "0.21"
 Nettle = "0.5"
 POMDPModels = "0.4"
