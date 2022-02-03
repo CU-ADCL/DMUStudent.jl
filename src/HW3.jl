@@ -1,5 +1,9 @@
 module HW3
 
+using ..Obfuscatee
+using Nettle
+using JSON
+
 using POMDPs
 using StaticArrays
 using Parameters
@@ -7,18 +11,14 @@ using Random
 using Distributions
 using POMDPModelTools
 using ProgressMeter
-using DiscreteValueIteration
 using POMDPSimulators
-using Obfuscatee
 using Compose
 using ColorSchemes
-using Nettle
-using JSON
 using Colors: weighted_color_mean, hex, @colorant_str
 using D3Trees: D3Tree, inchrome
 using Printf: @sprintf
 using POMDPPolicies: FunctionPolicy
-# using POMDPModels # just to silence warning when HW4 is imported
+using DiscreteValueIteration # for comparison in evaluate
 
 import DMUStudent
 
