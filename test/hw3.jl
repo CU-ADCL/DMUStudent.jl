@@ -14,7 +14,7 @@
     @time m = rand(DenseGridWorld)
     @test has_consistent_distributions(m)
     
-    @warn("Skipping HW3 evaluate testing for speed")
+    # @warn("Skipping HW3 evaluate testing for speed")
     @test HW3.evaluate(RandomSolver(), "hw3").score <= 100.0
     @test HW3.evaluate((m,s)->rand(actions(m)), "hw3").score <= 100.0
 
