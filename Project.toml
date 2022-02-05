@@ -30,6 +30,7 @@ UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
 Compose = "0.9"
+D3Trees = "0.3"
 Discretizers = "3"
 Distributions = "0.24,0.25"
 JSON = "0.21"
