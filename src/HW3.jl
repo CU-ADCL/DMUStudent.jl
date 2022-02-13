@@ -31,15 +31,6 @@ const GWPos = SVector{2,Int}
 const DEFAULT_SIZE = (60,60)
 const RD = 20
 
-# @with_kw struct DenseGridWorld <: MDP{GWPos, Symbol}
-#     size::Tuple{Int, Int}           = DEFAULT_SIZE
-#     rewards::Dict{GWPos, Float64}   = Dict(GWPos(x,y) => 100.0 for x in RD:RD:size[1]-RD, y in RD:RD:size[2]-RD)
-#     costs::Matrix{Float64}          = gencosts(size)
-#     terminate_from::Set{GWPos}      = Set(keys(rewards))
-#     tprob::Float64                  = 0.9
-#     discount::Float64               = 0.95
-# end
-
 struct DenseGridWorld <: MDP{GWPos, Symbol}
     size::Tuple{Int, Int}
     rewards::Dict{GWPos, Float64}
@@ -65,7 +56,7 @@ function gencosts(size=DEFAULT_SIZE, rng::AbstractRNG=Random.GLOBAL_RNG)
 end
 
 function Random.rand(rng::AbstractRNG, ::Random.SamplerType{DenseGridWorld})
-    return DenseGridWorld(size=DEFAULT_SIZE, costs=gencosts((100,100), rng))
+    return DenseGridWorld(size=DEFAULT_SIZE, costs=gencosts(DEFAULT_SIZE, rng))
 end
 
 # States
