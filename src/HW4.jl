@@ -1,50 +1,53 @@
 module HW4
 
 using CommonRLInterface
-using StaticArrays
+using StaticArrays: SA, SVector
 using Compose
 
 import ColorSchemes
 
-export gw
+export gw, render
 
 const RL = CommonRLInterface
 
-mutable struct GridWorld <: AbstractEnv
+mutable struct GridWorldEnv <: AbstractEnv
     size::SVector{2, Int}
     rewards::Dict{SVector{2, Int}, Float64}
     state::SVector{2, Int}
 end
 
-function GridWorld()
-    rewards = Dict(SA[7,7]=> 10.0,
+function GridWorldEnv()
+    rewards = Dict(SA[9,9]=> 10.0,
                    SA[3,1]=> -2.0,
                    SA[4,3]=>-10.0,
+                   SA[2,3]=>  1.0,
                    SA[7,6]=> -5.0)
-    return GridWorld(SA[10, 10], rewards, SA[1,1])
+    return GridWorldEnv(SA[10, 10], rewards, SA[1,1])
 end
 
-RL.reset!(env::GridWorld) = (env.state = SA[1,1])
-RL.actions(env::GridWorld) = (SA[1,0], SA[-1,0], SA[0,1], SA[0,-1])
-RL.observe(env::GridWorld) = env.state
-RL.terminated(env::GridWorld) = haskey(env.rewards, env.state)
+RL.reset!(env::GridWorldEnv) = (env.state = SA[1,1])
+RL.actions(env::GridWorldEnv) = (SA[1,0], SA[-1,0], SA[0,1], SA[0,-1])
+RL.observe(env::GridWorldEnv) = env.state
+RL.terminated(env::GridWorldEnv) = haskey(env.rewards, env.state)
 
-function RL.act!(env::GridWorld, a)
-    if rand() < 0.4 # 40% chance of going in a random direction (=30% chance of going in a wrong direction)
-        a = rand(actions(env))
+function RL.act!(env::GridWorldEnv, a)
+    if rand() < 0.44 # 44% chance of going in a random direction (=33% chance of going in a wrong direction)
+        direction = rand(actions(env))
+    else
+        direction = a
     end
 
-    env.state = clamp.(env.state + a, SA[1,1], env.size)
+    env.state = clamp.(env.state + direction, SA[1,1], env.size)
 
-    return get(env.rewards, env.state, -0.1)
+    return get(env.rewards, env.state, -0.1) + 0.1*randn()
 end
 
-@provide RL.observations(env::GridWorld) = [SA[x, y] for x in 1:env.size[1], y in 1:env.size[2]]
-@provide RL.clone(env::GridWorld) = GridWorld(env.size, copy(env.rewards), env.state)
-@provide RL.state(env::GridWorld) = env.state
-@provide RL.setstate!(env::GridWorld, s) = (env.state = s)
+@provide RL.observations(env::GridWorldEnv) = [SA[x, y] for x in 1:env.size[1], y in 1:env.size[2]]
+@provide RL.clone(env::GridWorldEnv) = GridWorldEnv(env.size, copy(env.rewards), env.state)
+@provide RL.state(env::GridWorldEnv) = env.state
+@provide RL.setstate!(env::GridWorldEnv, s) = (env.state = s)
 
-function render(env::GridWorld; color::Function=s->get(env.rewards, s, -0.1), policy::Union{Function,Nothing}=nothing)
+function render(env::GridWorldEnv; color::Function=s->get(env.rewards, s, -0.1), policy::Union{Function,Nothing}=nothing)
     nx, ny = env.size
     cells = []
     for s in observations(env)
@@ -71,7 +74,7 @@ function render(env::GridWorld; color::Function=s->get(env.rewards, s, -0.1), po
     return compose(context((w-sz)/2, (h-sz)/2, sz, sz), agent, grid, outline)
 end
 
-@provide RL.render(env::GridWorld) = render(env)
+@provide RL.render(env::GridWorldEnv) = render(env)
 
 tocolor(x) = x
 function tocolor(r::Float64)
@@ -83,6 +86,6 @@ end
 
 const aarrow = Dict(SA[0,1]=>'↑', SA[-1,0]=>'←', SA[0,-1]=>'↓', SA[1,0]=>'→')
 
-gw = GridWorld()
+gw = GridWorldEnv()
 
 end
