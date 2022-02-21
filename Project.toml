@@ -32,6 +32,7 @@ UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 [compat]
 ColorSchemes = "3"
 Colors = "0.12"
+CommonRLInterface = "0.3"
 Compose = "0.9"
 D3Trees = "0.3"
 DiscreteValueIteration = "0.4"
