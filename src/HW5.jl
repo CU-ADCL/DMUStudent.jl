@@ -9,6 +9,7 @@ using Obfuscatee
 using ProgressMeter: @showprogress
 using JSON
 using IntervalSets
+using GameZero
 
 export mc
 
