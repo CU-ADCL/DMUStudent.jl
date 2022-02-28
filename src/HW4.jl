@@ -54,7 +54,7 @@ end
 Render a GridWorldEnv to a Compose.jl object that can be displayed in a Jupyter notebook or ElectronDisplay window.
 
 # Keyword Arguments
-- `color::Function`: A function that determines the color of each cell. Input is a state, output is either a number between -10 and 10 that will produce a color ranging from red to green, or any color from Colors.jl.
+- `color::Function`: A function that determines the color of each cell. Input is a state, output is either a Float64 between -10 and 10 that will produce a color ranging from red to green, or any color from Colors.jl.
 - `policy::Function`: A function that allows showing an arrow in each cell to indicate the policy. Input is a state; output is an action.
 """
 function render(env::GridWorldEnv; color::Function=s->get(env.rewards, s, -0.1), policy::Union{Function,Nothing}=nothing)
