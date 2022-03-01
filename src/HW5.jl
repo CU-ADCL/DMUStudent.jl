@@ -5,7 +5,7 @@ using Compose
 using StaticArrays
 using CommonRLInterface
 using Random: GLOBAL_RNG, MersenneTwister, SamplerTrivial, AbstractRNG
-using Obfuscatee
+using ..Obfuscatee
 using ProgressMeter: @showprogress
 using JSON
 using IntervalSets
