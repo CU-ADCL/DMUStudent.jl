@@ -5,8 +5,8 @@
 
     @test mc isa AbstractEnv
     easier_env = Wrappers.QuickWrapper(mc,
-    actions = [-1.0, 0.0, 1.0],
-    observe = env->observe(env)[1:2]
+        actions = [-1.0, 0.0, 1.0],
+        observe = env->observe(env)[1:2]
     )
     A = actions(easier_env)
     done = false
