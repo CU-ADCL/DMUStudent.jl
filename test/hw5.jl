@@ -6,7 +6,7 @@
     @test mc isa AbstractEnv
     easier_env = Wrappers.QuickWrapper(mc,
     actions = [-1.0, 0.0, 1.0],
-    observe = env->observe(env)[1:2]
+    observe = env->observe(env)
     )
     A = actions(easier_env)
     done = false
@@ -71,10 +71,10 @@
     reset!(mc)
     mc.s = [1.0, 0.0]
     act!(mc, 0.0)
-    @test mc.nar.centerx < 200-17
+    @test mc.nar.centerx < 200-9
     @test mc.nar.right < 200
     mc.s = [-1.0, 0.0]
     act!(mc, 0.0)
-    @test mc.nar.centerx > 17
+    @test mc.nar.centerx > 9
     @test mc.nar.left > 0
 end
