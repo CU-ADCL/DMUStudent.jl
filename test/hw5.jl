@@ -8,6 +8,10 @@
         observe = env->observe(env)[1:2]
     )
 
+    @testset "observe before reset" begin
+        @test observe(easier_env) isa AbstractArray
+    end
+
     @testset "easier_env" begin
         @test mc isa AbstractEnv
         A = actions(easier_env)
