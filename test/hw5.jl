@@ -44,8 +44,8 @@
         @test HW5.evaluate(s->rand(actions(easier_env)), "zachary.sunberg@colorado.edu", n_episodes=10).score < 0.0
 
         energy(s) = sign(s[2])
-        @test HW5.evaluate(energy).score > 0.0
-        @test HW5.evaluate(energy, "zachary.sunberg@colorado.edu").score > 0.0
+        @test 0.0 < HW5.evaluate(energy).score < 55.0
+        @test 0.0 < HW5.evaluate(energy, "zachary.sunberg@colorado.edu").score < 55.0
     end
 
     @testset "sufficient energy" begin
