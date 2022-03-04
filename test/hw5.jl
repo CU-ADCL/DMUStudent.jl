@@ -2,11 +2,32 @@
     using DMUStudent.HW5: mc
     using CommonRLInterface
     using Compose
+    using Random: MersenneTwister
 
     easier_env = Wrappers.QuickWrapper(mc,
         actions = [-1.0, 0.0, 1.0],
         observe = env->observe(env)[1:2]
     )
+
+    @testset "Check consistency of rng in evaluation" begin
+        rng = MersenneTwister(3)
+        env1 = HW5.MountainCar(;rng=rng)
+        rng2 = MersenneTwister(3)
+        env2 = HW5.MountainCar(;rng=rng2)
+
+        @test observe(env1) == observe(env2)
+
+        for _ in 1:10
+            act!(env1, 1.0)
+            act!(env2, 1.0)
+        end
+        @test observe(env1) == observe(env2)
+
+        reset!(env1)
+        reset!(env2)
+
+        @test observe(env1) == observe(env2)
+    end
 
     @testset "observe before reset" begin
         @test observe(easier_env) isa AbstractArray
