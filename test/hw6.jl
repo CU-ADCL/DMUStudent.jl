@@ -1,26 +1,28 @@
-@testset "HW6" begin
-    using DMUStudent
-    using DMUStudent.HW6
-    using POMDPs
-    using POMDPTesting
-    using QMDP
-    using POMDPSimulators
-    using POMDPPolicies
-    import POMDPModelTools: render, Uniform
-    using Compose
-    using SARSOP
+using DMUStudent
+using DMUStudent.HW6
+using POMDPs
+using POMDPTesting
+using QMDP
+using POMDPSimulators
+using POMDPPolicies
+import POMDPModelTools: render, Uniform
+using Compose
+using SARSOP
+using BeliefUpdaters: DiscreteUpdater
+using Random
 
+@testset "HW6" begin
     small = LaserTagPOMDP(size=(4,3), n_obstacles=3)
 
     @test has_consistent_distributions(small)
 
     @test simulate(RolloutSimulator(max_steps=100), small, RandomPolicy(small)) isa Float64
 
-    solve(QMDPSolver(), small)
+    @time solve(QMDPSolver(), small)
 
-    sp = LTState([3, 2], [2, 3])
+    sp = LTState([3, 2], [2, 3], [4,1])
     r = render(small, (o=[1,1,1,1], bp=Uniform(states(small)), sp=sp))
-    filename = "/tmp/lasertag.svg"
+    filename = joinpath(tempdir(), "lasertag.svg")
     draw(SVG(filename), r)
 
     r = render(small, (done=true,))
@@ -28,7 +30,16 @@
     @test HW6.evaluate(RandomPolicy(LaserTagPOMDP())).score < 0.0
     @test HW6.evaluate(RandomPolicy(LaserTagPOMDP()), "zachary.sunberg@colorado.edu").score < 0.0
 
-    tiny = LaserTagPOMDP(size=(2,2), n_obstacles=0)
+    @time solve(SARSOPSolver(precision=10.0), small)
 
-    solve(SARSOPSolver(), tiny)
+    rng = MersenneTwister(21)
+    m = LaserTagPOMDP()
+    up = DiscreteUpdater(m)
+    b = initialize_belief(up, initialstate(m))
+    s = rand(rng, b)
+    a = first(actions(m))
+    sp = @gen(:sp)(m, s, a)
+    o = rand(rng, observation(m, s, a, sp))
+    update(up, b, a, o)
+    @time update(up, b, a, o)
 end
