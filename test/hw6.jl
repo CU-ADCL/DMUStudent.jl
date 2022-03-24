@@ -20,7 +20,7 @@ using Random
 
     @time solve(QMDPSolver(), small)
 
-    sp = LTState([3, 2], [2, 3], [1,1])
+    sp = LTState([3, 2], [2, 3], [4,1])
     r = render(small, (o=[1,1,1,1], bp=Uniform(states(small)), sp=sp))
     filename = "/tmp/lasertag.svg"
     draw(SVG(filename), r)
