@@ -22,7 +22,7 @@ using Random
 
     sp = LTState([3, 2], [2, 3], [4,1])
     r = render(small, (o=[1,1,1,1], bp=Uniform(states(small)), sp=sp))
-    filename = "/tmp/lasertag.svg"
+    filename = joinpath(tempdir(), "lasertag.svg")
     draw(SVG(filename), r)
 
     r = render(small, (done=true,))
