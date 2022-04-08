@@ -158,7 +158,7 @@ function POMDPs.observation(m::LaserTagPOMDP, a, sp)
     end
     ranges = laserbounce(ranges, sp.robot, sp.target)
     ranges = laserbounce(ranges, sp.robot, sp.wanderer)
-    os = SVector(ranges, SVector(0.0, 0.0, 0.0, 0.0))
+    os = SVector(ranges, SVector(0, 0, 0, 0))
     if all(ranges.==0.0) || a == :measure
         probs = SVector(1.0, 0.0)
     else
