@@ -42,4 +42,13 @@ using Random
     o = rand(rng, observation(m, s, a, sp))
     update(up, b, a, o)
     @time update(up, b, a, o)
+
+    @testset "pr-64" begin
+        a = rand(actions(m))
+        sp = rand(states(m))
+        o = rand(observation(m,a,sp))
+        @test o isa obstype(m)
+
+        @test obsindex(m, o) isa Int
+    end
 end
