@@ -2,6 +2,8 @@
 
 Julia package for students in Decision Making under Uncertainty. This package contains code needed for homeworks and submission to gradescope.
 
+The code will be updated over the course of the semester, so **it is extemely important to [update the code](#Updating) before starting a homework assignment** to ensure that you have the latest version.
+
 Examining and using any of the code in this package is **encouraged**, except for obfuscated code. Obfuscated code is hidden by default and will look like files full of numbers; *it will not be easy to accidentally see*. However a *deliberate* attempt to de-obfuscate this code or look inside it using another tool will be considered a violation of the Honor Code.
 
 ## Installation and Testing
