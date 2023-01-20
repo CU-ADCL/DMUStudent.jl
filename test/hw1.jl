@@ -6,6 +6,12 @@
     @test HW1.evaluate(f, "zachary.sunberg@colorado.edu", fname="bad_results.json").score==0
     @test HW1.evaluate(f, "zachary.sunberg@colorado.edu").score==0
 
+    f(a, bs) = 1
+    @test HW1.evaluate(f).score==0
+
+    f(a, bs) = [1]
+    @test HW1.evaluate(f).score==0
+
     f(a, bs) = a*first(bs)
     @test HW1.evaluate(f).score==0
     @test HW1.evaluate(f, "jodo1234@colorado.edu").score==0
@@ -18,7 +24,7 @@
         return v
     end
     @test HW1.evaluate(solution).score==1
-    @test HW1.evaluate(solution, "jodo1234@colorado.edu").score==1
+    @test HW1.evaluate(solution, "zachary.sunberg@colorado.edu", fname="good_results.json").score==1
 
     f(a, bs) = convert(Vector{Float64}, solution(a, bs))
     @test HW1.evaluate(f).score==0.5
