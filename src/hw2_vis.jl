@@ -6,10 +6,10 @@ struct ACASRender
     s::ACASState
 end
 
-POMDPModelTools.render(m::UnresponsiveACASMDP, step::NamedTuple) = render(m, step.s)
-POMDPModelTools.render(m::UnresponsiveACASMDP, s::ACASState) = ACASRender(m, s)
-POMDPModelTools.render(m::UnresponsiveACASMDP, s::AbstractVector) = render(m, convert(ACASState, s))
-POMDPModelTools.render(m::UnresponsiveACASMDP) = ACASRender(m, rand(initialstate(m)))
+POMDPTools.render(m::UnresponsiveACASMDP, step::NamedTuple) = render(m, step.s)
+POMDPTools.render(m::UnresponsiveACASMDP, s::ACASState) = ACASRender(m, s)
+POMDPTools.render(m::UnresponsiveACASMDP, s::AbstractVector) = render(m, convert(ACASState, s))
+POMDPTools.render(m::UnresponsiveACASMDP) = ACASRender(m, rand(initialstate(m)))
 
 ownarrow(s::ACASState) = [-arrowlength/2, arrowlength/2, -arrowlength/2], [s.h_o+arrowheight/2, s.h_o, s.h_o-arrowheight/2]
 intarrow(s::ACASState) = [s.d+arrowlength/2, s.d-arrowlength/2, s.d+arrowlength/2], [s.h_i+arrowheight/2, s.h_i, s.h_i-arrowheight/2]

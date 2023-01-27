@@ -10,8 +10,7 @@ using POMDPs
 using StaticArrays
 using Distributions
 using Discretizers
-using POMDPModelTools
-using POMDPPolicies
+using POMDPTools
 using POMDPModels: SimpleGridWorld
 
 import UnicodePlots
@@ -207,7 +206,7 @@ T[1][2,3] # probability of transitioning from state 2 to 3 when action 1 is take
 - `sparse::Bool`: if true, returns a sparse matrix representation (with significant memory savings!), if false, the matrices will be dense
 """
 function transition_matrices(m::MDP; sparse::Bool=false)
-    transmats = POMDPModelTools.transition_matrix_a_s_sp(m)
+    transmats = POMDPTools.ModelTools.transition_matrix_a_s_sp(m)
     if !sparse
         transmats = [convert(Matrix, t) for t in transmats]
     end
@@ -219,7 +218,7 @@ end
 function reward_vectors(m::MDP)
     d = Dict{actiontype(m), Vector{Float64}}()
     for a in actions(m)
-        rv = POMDPModelTools.policy_reward_vector(m, FunctionPolicy(s->a))
+        rv = POMDPTools.Policies.policy_reward_vector(m, FunctionPolicy(s->a))
         d[a] = rv
     end
     return d

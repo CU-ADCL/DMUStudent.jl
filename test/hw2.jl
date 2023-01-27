@@ -2,8 +2,9 @@
     using DMUStudent.HW2
     using POMDPs
     using DiscreteValueIteration
-    using POMDPTesting
-    using POMDPModelTools: render
+    import POMDPTools
+    using POMDPTools: render
+    using POMDPTools.Testing
 
     for n in 1
         m = UnresponsiveACASMDP(n)
@@ -36,6 +37,9 @@
         @test isterminal(m, v) == isterminal(m, s)
         @test convert_s(Int, v, m) == convert_s(Int, s, m)
         @test stateindex(m, v) == stateindex(m, s)
+
+        @test transition_matrices(m) == POMDPTools.transition_matrices(m)
+        @test reward_vectors(m) == POMDPTools.reward_vectors(m)
     end
 
     medium = ones(1250*19^3)
