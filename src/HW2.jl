@@ -189,7 +189,7 @@ function bincenter(d::LinearDiscretizer, binindex)
 end
 
 """
-    transition_matrices(m, [sparse=true])
+    transition_matrices(m; [sparse=true])
 
 Create a dictionary mapping actions to transition matrices for MDP m.
 
