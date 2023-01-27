@@ -4,8 +4,8 @@ using Nettle: hexdigest
 
 include("Obfuscatee.jl")
 
-export HW1
-       # HW2,
+export HW1,
+       HW2
        # HW3,
        # HW4,
        # HW5,
@@ -16,7 +16,7 @@ function hash_score(hw, email, score, key)
 end
 
 include("HW1.jl")
-# include("HW2.jl")
+include("HW2.jl")
 # include("HW3.jl")
 # include("HW4.jl")
 # include("HW5.jl")
