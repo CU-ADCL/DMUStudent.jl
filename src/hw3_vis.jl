@@ -1,4 +1,4 @@
-function POMDPModelTools.render(mdp::DenseGridWorld, step::Union{NamedTuple,Dict};
+function POMDPTools.render(mdp::DenseGridWorld, step::Union{NamedTuple,Dict};
                 color = s->reward(mdp, s),
                 policy::Union{Policy,Nothing} = nothing
                )

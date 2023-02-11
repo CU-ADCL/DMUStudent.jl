@@ -2,17 +2,12 @@
     using DMUStudent
     using DMUStudent.HW3
     using POMDPs
+    using POMDPTools
     using DiscreteValueIteration
-    using POMDPTesting
-    using POMDPPolicies
-    using POMDPModelTools
     using Compose
 
     @time m = DenseGridWorld()
-    @test has_consistent_distributions(m)
-
     @time m = rand(DenseGridWorld)
-    @test has_consistent_distributions(m)
     
     # @warn("Skipping HW3 evaluate testing for speed")
     @test HW3.evaluate(RandomSolver()).score <= 100.0
