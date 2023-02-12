@@ -53,7 +53,7 @@ function gencosts(size=DEFAULT_SIZE, rng::AbstractRNG=Random.GLOBAL_RNG)
     rand(rng, Exponential(1.0), size) + rand(rng, Bernoulli(0.1), size).*50.0
 end
 
-isedge(m::DenseGridWorld, s) = any(s .== 0) || any(s .== m.size[1])
+isedge(m::DenseGridWorld, s) = any(s .== 1) || any(s .== m.size[1])
 
 function Random.rand(rng::AbstractRNG, ::Random.SamplerType{DenseGridWorld})
     return DenseGridWorld(size=DEFAULT_SIZE, costs=gencosts(DEFAULT_SIZE, rng))
@@ -71,7 +71,7 @@ function POMDPs.stateindex(m::DenseGridWorld, s::AbstractVector{Int})
     if all(s.>0)
         return LinearIndices(m.size)[s...]
     else
-        return prod(m.size) + 1 # TODO: Change
+        return prod(m.size) + 1
     end
 end
 
