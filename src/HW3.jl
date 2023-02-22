@@ -96,7 +96,7 @@ end
 
 # Rewards
 
-POMDPs.reward(m::DenseGridWorld, s::AbstractVector{Int}) = get(m.rewards, s, 0.0) - m.costs[s...]
+POMDPs.reward(m::DenseGridWorld, s::AbstractVector{Int}) = get(m.rewards, s, 0.0) - (isterminal(m, s) ? 0.0 : m.costs[s...])
 POMDPs.reward(m::DenseGridWorld, s::AbstractVector{Int}, a::Symbol) = reward(m, s)
 
 # discount

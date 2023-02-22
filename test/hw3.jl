@@ -5,10 +5,15 @@
     using POMDPTools
     using DiscreteValueIteration
     using Compose
+    using StaticArrays
 
     @time m = DenseGridWorld()
     @time m = rand(DenseGridWorld)
     
+    # test that terminal states do not have errors
+    @test reward(m, SA[-1,-1]) == 0
+    @gen(:sp)(m, SA[-1, -1], :left) == SA[-1, -1]
+
     # @warn("Skipping HW3 evaluate testing for speed")
     @test HW3.evaluate(RandomSolver()).score <= 100.0
 

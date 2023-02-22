@@ -1,5 +1,6 @@
 using DMUStudent
 using Test
+using POMDPs
 import JSON
 
 # include("hw1.jl")
