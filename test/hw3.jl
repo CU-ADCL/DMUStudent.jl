@@ -1,7 +1,7 @@
+using POMDPs # apparently this has to be outside @testset to use @gen
 @testset "HW3" begin
     using DMUStudent
     using DMUStudent.HW3
-    using POMDPs
     using POMDPTools
     using DiscreteValueIteration
     using Compose
