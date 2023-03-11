@@ -7,8 +7,8 @@ include("Obfuscatee.jl")
 export HW1,
        HW2,
        HW3,
-       HW4
-       # HW5,
+       HW4,
+       HW5
        # HW6
 
 function hash_score(hw, email, score, key)
