@@ -5,7 +5,7 @@ using QMDP
 using POMDPTools
 import POMDPTools: render, Uniform
 using Compose
-using SARSOP
+using NativeSARSOP
 using Random
 
 @testset "HW6" begin
