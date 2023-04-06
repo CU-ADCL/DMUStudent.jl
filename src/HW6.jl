@@ -4,12 +4,11 @@ using DMUStudent
 using ..Obfuscatee
 using POMDPs
 using StaticArrays
-using POMDPModelTools
+using POMDPTools
 using Random
 using Compose
 using Nettle
 using ProgressMeter
-using POMDPSimulators
 using JSON
 
 export
@@ -190,7 +189,7 @@ function POMDPs.initialstate(m::LaserTagPOMDP)
     return Uniform(LTState(m.robot_init, SVector(x, y), SVector(x,y)) for x in 1:m.size[1], y in 1:m.size[2])
 end
 
-function POMDPModelTools.render(m::LaserTagPOMDP, step)
+function POMDPTools.render(m::LaserTagPOMDP, step)
     nx, ny = m.size
     cells = []
     target_marginal = zeros(nx, ny)

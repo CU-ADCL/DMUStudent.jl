@@ -1,14 +1,11 @@
 using DMUStudent
 using DMUStudent.HW6
 using POMDPs
-using POMDPTesting
 using QMDP
-using POMDPSimulators
-using POMDPPolicies
-import POMDPModelTools: render, Uniform
+using POMDPTools
+import POMDPTools: render, Uniform
 using Compose
 using SARSOP
-using BeliefUpdaters: DiscreteUpdater
 using Random
 
 @testset "HW6" begin
