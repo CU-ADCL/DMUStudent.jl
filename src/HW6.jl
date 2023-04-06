@@ -23,10 +23,10 @@ struct LTState
     wanderer::SVector{2, Int}
 end
 
-Base.convert(::Type{SVector{4, Int}}, s::LTState) = SA[s.robot..., s.target...]
-Base.convert(::Type{AbstractVector{Int}}, s::LTState) = convert(SVector{4, Int}, s)
-Base.convert(::Type{AbstractVector}, s::LTState) = convert(SVector{4, Int}, s)
-Base.convert(::Type{AbstractArray}, s::LTState) = convert(SVector{4, Int}, s)
+Base.convert(::Type{SVector{6, Int}}, s::LTState) = SA[s.robot..., s.target..., s.wanderer...]
+Base.convert(::Type{AbstractVector{Int}}, s::LTState) = convert(SVector{6, Int}, s)
+Base.convert(::Type{AbstractVector}, s::LTState) = convert(SVector{6, Int}, s)
+Base.convert(::Type{AbstractArray}, s::LTState) = convert(SVector{6, Int}, s)
 
 
 struct LaserTagPOMDP <: POMDP{LTState, Symbol, SVector{4,Int}}
