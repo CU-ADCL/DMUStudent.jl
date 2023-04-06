@@ -98,6 +98,14 @@ end
 function POMDPs.transition(m::LaserTagPOMDP, s, a)
     newrobot = bounce(m, s.robot, actiondir[a])
 
+    if isterminal(m, s)
+        @assert s.robot == s.target
+        # return a new terminal state where the robot has moved
+        # this maintains the property that the robot always moves the same, regardless of the target and wanderer states
+        return SparseCat([LTState(newrobot, newrobot, s.wanderer)], [1.0])
+    end
+
+
     targets = [s.target]
     targetprobs = Float64[0.0]
     if sum(abs, newrobot - s.target) > 2 # move randomly
@@ -248,7 +256,9 @@ function POMDPTools.render(m::LaserTagPOMDP, step)
 end
 
 function POMDPs.reward(m::LaserTagPOMDP, s, a, sp)
-    if sp.robot == sp.target
+    if isterminal(m, s)
+        return 0.0
+    elseif sp.robot == sp.target
         return 100.0
     elseif a == :measure
         return -2.0
