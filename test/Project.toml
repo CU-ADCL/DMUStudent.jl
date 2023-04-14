@@ -2,6 +2,7 @@
 Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 NativeSARSOP = "a07c76ea-660d-4c9a-8028-2e6dbd212cb8"
+POMDPModels = "355abbd5-f08e-5560-ac9e-8b5f2592a0ca"
 POMDPTools = "7588e00f-9cae-40de-98dc-e0c70c48cdd7"
 POMDPs = "a93abf59-7444-517b-a68a-c42f96afdd7d"
 QMDP = "3aa3ecc9-5a5d-57c8-8188-3e47bd8068d2"
