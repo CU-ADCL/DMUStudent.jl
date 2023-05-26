@@ -12,8 +12,8 @@ using POMDPModels
 @testset "HW6" begin
     tiger = TigerPOMDP()
     # check that states are in order just to make it easier for students
-    @test_broken all(states(tiger) .== ordered_states(tiger))
-    @test_broken all(observations(tiger) .== ordered_observations(tiger))
+    @test all(states(tiger) .== ordered_states(tiger))
+    @test all(observations(tiger) .== ordered_observations(tiger))
 
     small = LaserTagPOMDP(size=(4,3), n_obstacles=3)
 
