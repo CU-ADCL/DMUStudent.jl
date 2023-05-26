@@ -42,10 +42,10 @@ function RL.act!(env::GridWorldEnv, a)
     return get(env.rewards, env.state, -0.1) + 0.1*randn()
 end
 
-@provide RL.observations(env::GridWorldEnv) = [SA[x, y] for x in 1:env.size[1], y in 1:env.size[2]]
-@provide RL.clone(env::GridWorldEnv) = GridWorldEnv(env.size, copy(env.rewards), env.state)
-@provide RL.state(env::GridWorldEnv) = env.state
-@provide RL.setstate!(env::GridWorldEnv, s) = (env.state = s)
+RL.observations(env::GridWorldEnv) = [SA[x, y] for x in 1:env.size[1], y in 1:env.size[2]]
+RL.clone(env::GridWorldEnv) = GridWorldEnv(env.size, copy(env.rewards), env.state)
+RL.state(env::GridWorldEnv) = env.state
+RL.setstate!(env::GridWorldEnv, s) = (env.state = s)
 
 """
     render(env::GridWorldEnv)
@@ -84,7 +84,7 @@ function render(env::GridWorldEnv; color::Function=s->get(env.rewards, s, -0.1),
     return compose(context((w-sz)/2, (h-sz)/2, sz, sz), agent, grid, outline)
 end
 
-@provide RL.render(env::GridWorldEnv) = render(env)
+RL.render(env::GridWorldEnv) = render(env)
 
 tocolor(x) = x
 function tocolor(r::Float64)

@@ -7,11 +7,20 @@ import POMDPTools: render, Uniform
 using Compose
 using NativeSARSOP
 using Random
+using POMDPModels
 
 @testset "HW6" begin
+    tiger = TigerPOMDP()
+    # check that states are in order just to make it easier for students
+    @test all(states(tiger) .== ordered_states(tiger))
+    @test all(observations(tiger) .== ordered_observations(tiger))
+
     small = LaserTagPOMDP(size=(4,3), n_obstacles=3)
 
     @test has_consistent_distributions(small)
+    # check that states are in order just to make it easier for students
+    @test all(states(small) .== ordered_states(small))
+    @test all(observations(small) .== ordered_observations(small))
 
     @test simulate(RolloutSimulator(max_steps=100), small, RandomPolicy(small)) isa Float64
 
