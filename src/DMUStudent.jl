@@ -11,9 +11,6 @@ export HW1,
        HW5,
        HW6
 
-function hash_score(hw, email, score, key)
-    return hexdigest("sha256", string(hw)*email*string(score)*key)
-end
 
 include("HW1.jl")
 include("HW2.jl")
@@ -21,5 +18,8 @@ include("HW3.jl")
 include("HW4.jl")
 include("HW5.jl")
 include("HW6.jl")
+
+
+@deprecate hash_score(hw, email, score, key) hexdigest("sha256", string(hw)*email*string(score)*key)
 
 end # module
