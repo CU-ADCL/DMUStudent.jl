@@ -37,6 +37,8 @@
         end
         return v
     end
-    @test HW1.evaluate(unstable).score==0.9
-    @test HW1.evaluate(unstable, "jodo1234@colorado.edu").score==0.9
+
+    # this is an overly-permissive test at the moment. It should be 0.9, but I'm not 100% sure whether I should require type stbility on the homework.
+    @test 0.9 <= HW1.evaluate(unstable).score <= 1.0
+    @test 0.9 <= HW1.evaluate(unstable, "jodo1234@colorado.edu").score <= 1.0
 end
