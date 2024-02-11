@@ -267,7 +267,7 @@ function POMDPs.reward(m::LaserTagPOMDP, s, a, sp)
     end
 end
 
-function POMDPs.reward(m, s, a)
+function POMDPs.reward(m::LaserTagPOMDP, s, a)
     r = 0.0
     td = transition(m, s, a)
     for (sp, w) in weighted_iterator(td)
