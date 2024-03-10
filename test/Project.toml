@@ -1,4 +1,5 @@
 [deps]
+CommonRLInterface = "d842c3ba-07a1-494f-bbec-f5741b0a3e98"
 Compose = "a81c6b42-2e10-5240-aca2-a61377ecd94b"
 DiscreteValueIteration = "4b033969-44f6-5439-a48b-c11fa3648068"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"

@@ -10,7 +10,7 @@
     )
 
     @testset "observe before reset" begin
-        @test observe(easier_env) isa AbstractArray
+        @test observe(easier_env) isa AbstractArray{Float32}
     end
 
     @testset "Check consistency of rng in evaluation" begin
@@ -20,10 +20,12 @@
         env2 = HW5.MountainCar(;rng=rng2)
 
         @test observe(env1) == observe(env2)
+        @test observe(env1) isa AbstractArray{Float32}
+        @test observe(env2) isa AbstractArray{Float32}
 
         for _ in 1:10
-            act!(env1, 1.0)
-            act!(env2, 1.0)
+            @test act!(env1, 1.0) isa Float32
+            @test act!(env2, 1.0) isa Float32
         end
         @test observe(env1) == observe(env2)
 
@@ -39,15 +41,16 @@
         done = false
         rsum = 0.0
         reset!(easier_env)
-        s = observe(easier_env)
+        s = observe(easier_env)::AbstractArray{Float32}
         t = 1
         γ = 0.95
         max_t = 200
         while t <= max_t && !terminated(easier_env)
             a = rand(A)
             
-            r = act!(easier_env, a)
-            sp = observe(easier_env)
+            r = act!(easier_env, a)::Float32
+            sp = observe(easier_env)::AbstractArray{Float32}
+            done = terminated(easier_env)
            
             rsum += γ^t*r
             
