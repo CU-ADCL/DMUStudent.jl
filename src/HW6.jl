@@ -228,11 +228,11 @@ function POMDPTools.render(m::LaserTagPOMDP, step)
 
     if haskey(step, :sp)
         robot_ctx = cell_ctx(step[:sp].robot, m.size)
-        robot = compose(robot_ctx, circle(0.5, 0.5, 0.5), fill("green"))
+        robot = compose(robot_ctx, circle(0.5, 0.5, 0.4), fill("green"))
         target_ctx = cell_ctx(step[:sp].target, m.size)
-        target = compose(target_ctx, circle(0.5, 0.5, 0.5), fill("orange"))
+        target = compose(target_ctx, circle(0.5, 0.5, 0.4), fill("orange"))
         wanderer_ctx = cell_ctx(step[:sp].wanderer, m.size)
-        wanderer = compose(wanderer_ctx, circle(0.5, 0.5, 0.5), fill("purple"))
+        wanderer = compose(wanderer_ctx, circle(0.5, 0.5, 0.4), fill("purple"))
     else
         robot = nothing
         target = nothing
@@ -251,8 +251,11 @@ function POMDPTools.render(m::LaserTagPOMDP, step)
         lasers = nothing
     end
 
-    sz = min(w,h)
-    return compose(context((w-sz)/2, (h-sz)/2, sz, sz), robot, target, wanderer, lasers, grid, outline)
+    # largest box with the grid's aspect ratio so that cells are square
+    # (min of Compose measures is resolved lazily at draw time)
+    gw = min(w, h*nx/ny)
+    gh = min(h, w*ny/nx)
+    return compose(context((w-gw)/2, (h-gh)/2, gw, gh), robot, target, wanderer, lasers, grid, outline)
 end
 
 function POMDPs.reward(m::LaserTagPOMDP, s, a, sp)
